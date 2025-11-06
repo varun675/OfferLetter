@@ -46,12 +46,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="w-full max-w-full sm:max-w-4xl h-screen sm:h-auto max-h-screen sm:max-h-[90vh] p-3 sm:p-6" data-testid="dialog-pdf-preview">
-        <DialogHeader className="pb-2">
+      <DialogContent className="w-full max-w-full sm:max-w-4xl h-[95vh] sm:h-auto max-h-[95vh] sm:max-h-[90vh] p-3 sm:p-6 flex flex-col" data-testid="dialog-pdf-preview">
+        <DialogHeader className="pb-2 shrink-0">
           <DialogTitle className="text-lg sm:text-xl">Offer Letter Preview</DialogTitle>
         </DialogHeader>
         
-        <ScrollArea className="h-[calc(100vh-6rem)] sm:h-[calc(90vh-8rem)] pr-2 sm:pr-4">
+        <ScrollArea className="flex-1 overflow-auto pr-2 sm:pr-4" style={{maxHeight: 'calc(95vh - 5rem)'}}>
           <div className="space-y-4 sm:space-y-8">
             {/* Page 1 - Cover Page */}
             <div className="bg-white rounded-md sm:rounded-lg border border-primary/20 sm:border-2 overflow-hidden">
@@ -232,6 +232,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                 hra={data.hra}
                 specialAllowance={data.specialAllowance}
                 bonuses={data.bonuses}
+                testIdSuffix="-preview"
               />
               
               <div className="mt-4 sm:mt-8 space-y-3 sm:space-y-4 text-xs sm:text-sm">

@@ -105,7 +105,7 @@ export default function SignaturePad({ onSave, existingSignature }: SignaturePad
         <canvas
           ref={canvasRef}
           data-testid="canvas-signature"
-          className="w-full h-32 sm:h-40 cursor-crosshair touch-none"
+          className="w-full min-h-40 h-40 sm:h-48 cursor-crosshair touch-none"
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
