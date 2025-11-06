@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import FormSection from "./FormSection";
 import CompensationTable from "./CompensationTable";
 import PDFPreview from "./PDFPreview";
-import { FileText, Download, Plus, Trash2 } from "lucide-react";
+import { FileText, Download, Plus, Trash2, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface BonusField {
@@ -28,6 +28,8 @@ export interface OfferLetterData {
   specialAllowance: string;
   probationPeriod: string;
   specialClause: string;
+  logoImage: string;
+  signatureImage: string;
   bonuses: BonusField[];
 }
 
@@ -51,6 +53,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     specialAllowance: "",
     probationPeriod: "6",
     specialClause: "",
+    logoImage: "",
+    signatureImage: "",
     bonuses: [
       { label: "Retention Bonus", amount: "" }
     ],
@@ -124,6 +128,19 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       ...prev,
       bonuses: prev.bonuses.filter((_, i) => i !== index)
     }));
+  };
+
+  const handleFileUpload = (field: 'logoImage' | 'signatureImage', file: File | null) => {
+    if (!file) {
+      setFormData(prev => ({ ...prev, [field]: "" }));
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setFormData(prev => ({ ...prev, [field]: reader.result as string }));
+    };
+    reader.readAsDataURL(file);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -265,6 +282,91 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
                 value={formData.probationPeriod}
                 onChange={(e) => handleChange("probationPeriod", e.target.value)}
               />
+            </div>
+          </div>
+        </FormSection>
+
+        <FormSection 
+          title="Company Branding" 
+          description="Upload company logo and authorized signatory signature"
+        >
+          <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="logoUpload" data-testid="label-logo">
+                Company Logo
+              </Label>
+              <div className="space-y-3">
+                <Input
+                  id="logoUpload"
+                  type="file"
+                  accept="image/*"
+                  data-testid="input-logo"
+                  onChange={(e) => handleFileUpload('logoImage', e.target.files?.[0] || null)}
+                  className="cursor-pointer"
+                />
+                {formData.logoImage && (
+                  <div className="relative inline-block">
+                    <img 
+                      src={formData.logoImage} 
+                      alt="Company Logo Preview" 
+                      className="h-16 object-contain border rounded p-2"
+                      data-testid="preview-logo"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-destructive text-destructive-foreground"
+                      onClick={() => setFormData(prev => ({ ...prev, logoImage: "" }))}
+                      data-testid="button-remove-logo"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Upload your company logo (recommended: PNG with transparent background)
+              </p>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="signatureUpload" data-testid="label-signature">
+                Authorized Signature
+              </Label>
+              <div className="space-y-3">
+                <Input
+                  id="signatureUpload"
+                  type="file"
+                  accept="image/*"
+                  data-testid="input-signature"
+                  onChange={(e) => handleFileUpload('signatureImage', e.target.files?.[0] || null)}
+                  className="cursor-pointer"
+                />
+                {formData.signatureImage && (
+                  <div className="relative inline-block">
+                    <img 
+                      src={formData.signatureImage} 
+                      alt="Signature Preview" 
+                      className="h-16 object-contain border rounded p-2"
+                      data-testid="preview-signature"
+                    />
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      size="icon"
+                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-destructive text-destructive-foreground"
+                      onClick={() => setFormData(prev => ({ ...prev, signatureImage: "" }))}
+                      data-testid="button-remove-signature"
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+              </div>
+              <p className="text-sm text-muted-foreground">
+                Upload signature of VP, Operations and Finance (or use touchscreen to sign)
+              </p>
             </div>
           </div>
         </FormSection>

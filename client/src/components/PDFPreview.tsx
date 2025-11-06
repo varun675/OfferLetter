@@ -24,6 +24,8 @@ interface PDFPreviewProps {
     specialAllowance: string;
     probationPeriod: string;
     specialClause: string;
+    logoImage: string;
+    signatureImage: string;
     bonuses: BonusField[];
   };
 }
@@ -36,6 +38,8 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
   };
 
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+  
+  const displayLogo = data.logoImage || logoImg;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -48,7 +52,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
           <div className="space-y-8">
             {/* Page 1 */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
-              <img src={logoImg} alt="Codesmotech" className="h-12 mb-6" />
+              <img src={displayLogo} alt="Codesmotech" className="h-12 mb-6" />
               
               <div className="space-y-4 text-sm">
                 <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
@@ -79,7 +83,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 2 - Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
-              <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
+              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
               
               <p>
                 As per Company policy, the probation period applicable shall be{' '}
@@ -113,7 +117,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 3 - More Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
-              <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
+              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
               
               <p>
                 This offer letter is based on the information furnished in your application for 
@@ -151,7 +155,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 4 - Closing */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6 text-sm">
-              <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
+              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
               
               <p>Wish you all the best!</p>
               
@@ -160,15 +164,25 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                 <p>For CodesmoTech Technology Consulting Private Limited</p>
               </div>
               
-              <div className="pt-8 space-y-1">
+              <div className="pt-8 space-y-2">
                 <p>VP, Operations and Finance</p>
-                <p>Rahul Sharma</p>
+                {data.signatureImage && (
+                  <div className="py-2">
+                    <img 
+                      src={data.signatureImage} 
+                      alt="Signature" 
+                      className="h-12 object-contain"
+                      data-testid="img-signature-display"
+                    />
+                  </div>
+                )}
+                <p className="font-semibold">Rahul Sharma</p>
               </div>
             </div>
 
             {/* Page 5 - Annexure */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20">
-              <img src={logoImg} alt="Codesmotech" className="h-10 mb-6" />
+              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-6" />
               
               <CompensationTable
                 employeeName={data.employeeName}
@@ -202,7 +216,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 6 - Acceptance */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
-              <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
+              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
               
               <div className="text-center space-y-4 py-8">
                 <h3 className="text-2xl font-bold">TO BE FILLED BY THE CONSULTANT</h3>
