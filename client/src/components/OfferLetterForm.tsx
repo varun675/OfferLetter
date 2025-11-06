@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -7,9 +7,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import FormSection from "./FormSection";
 import CompensationTable from "./CompensationTable";
 import PDFPreview from "./PDFPreview";
+import PDFDocument from "./PDFDocument";
 import SignaturePad from "./SignaturePad";
 import { FileText, Download, Plus, Trash2, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import html2pdf from "html2pdf.js";
 
 interface BonusField {
   label: string;
@@ -43,6 +45,7 @@ interface OfferLetterFormProps {
 export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
   const { toast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
+  const pdfRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<OfferLetterData>({
     salutation: "Mr",
     employeeName: "Roshan Saroj",
@@ -148,7 +151,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     reader.readAsDataURL(file);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!formData.employeeName || !formData.position || !formData.dateOfJoining) {
@@ -160,22 +163,60 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       return;
     }
 
+    if (!pdfRef.current) {
+      toast({
+        title: "Error",
+        description: "PDF container not found. Please try again.",
+        variant: "destructive",
+      });
+      return;
+    }
+
     setIsGenerating(true);
-    
-    setTimeout(() => {
-      console.log('Generate PDF with data:', formData);
-      
+
+    try {
+      // Generate filename: EmployeeName_DateOfJoining.pdf
+      const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
+
+      // Configure html2pdf options
+      const options = {
+        margin: 0,
+        filename: fileName,
+        image: { type: 'jpeg' as const, quality: 0.98 },
+        html2canvas: { 
+          scale: 2,
+          useCORS: true,
+          letterRendering: true
+        },
+        jsPDF: { 
+          unit: 'mm' as const, 
+          format: 'a4' as const, 
+          orientation: 'portrait' as const
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+      };
+
+      // Generate and download PDF
+      await html2pdf().set(options).from(pdfRef.current).save();
+
       if (onGenerate) {
         onGenerate(formData);
       }
-      
+
       toast({
-        title: "Offer Letter Generated",
-        description: `PDF ready: ${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining.replace(/\//g, '-')}.pdf`,
+        title: "PDF Generated Successfully",
+        description: `Downloaded: ${fileName}`,
       });
-      
+    } catch (error) {
+      console.error('PDF generation error:', error);
+      toast({
+        title: "PDF Generation Failed",
+        description: "There was an error generating the PDF. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
       setIsGenerating(false);
-    }, 1500);
+    }
   };
 
   return (
@@ -639,6 +680,11 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         onOpenChange={setShowPreview} 
         data={formData}
       />
+
+      {/* Hidden PDF container for generation */}
+      <div ref={pdfRef} className="fixed -left-[9999px] top-0 w-[210mm] bg-white">
+        <PDFDocument data={formData} isPrintMode={true} />
+      </div>
     </>
   );
 }
