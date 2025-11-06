@@ -2,7 +2,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import CompensationTable from "./CompensationTable";
-import logoImg from "@assets/generated_images/Codesmotech_company_logo_587f1306.png";
+import logoImg from "@assets/image_1762444072597.png";
 
 interface BonusField {
   label: string;
