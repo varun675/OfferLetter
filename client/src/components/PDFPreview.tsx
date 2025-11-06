@@ -50,28 +50,28 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               <img src={logoImg} alt="Codesmotech" className="h-12 mb-6" />
               
               <div className="space-y-4 text-sm">
-                <p><strong>To : Mr {data.employeeName || "________"}</strong></p>
+                <p><strong>To: {data.employeeName || "________"}</strong></p>
                 <p>{today}</p>
                 <p><strong>Dear {data.employeeName ? data.employeeName.split(' ')[0] : "________"},</strong></p>
                 <p>Congratulations!</p>
                 
                 <p>
                   On behalf of Codesmotech Technology Consulting Private Limited ("Company"), 
-                  we are pleased to offer you the position of <strong>{data.position || "________"}</strong>, 
+                  we are pleased to offer you the position of <strong>{data.position || "________"}</strong> 
                   at our {data.location || "________"} location.
                 </p>
                 
                 <p>
                   This offer takes effect from your date of joining set i.e.{' '}
                   <strong>{formatDate(data.dateOfJoining)}</strong> or any date sooner mutually 
-                  agreed by both the parties and you are required to accept and attest this letter on or before{' '}
+                  agreed by both parties, and you are required to accept and attest this letter on or before{' '}
                   <strong>{formatDate(data.acceptanceDeadline) || formatDate(data.dateOfJoining)}</strong>.
                 </p>
                 
                 <p>
                   Your compensation package would be as listed in <strong>Annexure below</strong>. 
-                  The structure of your compensation plan may be altered / edited in the future 
-                  in lines with the compensation policy set forth by the Company.
+                  The structure of your compensation plan may be altered/edited in the future 
+                  in line with the compensation policy set forth by the Company.
                 </p>
               </div>
             </div>
@@ -81,27 +81,27 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
               
               <p>
-                As per the Company policy, the probation period applicable for you shall be{' '}
+                As per Company policy, the probation period applicable shall be{' '}
                 <strong>{data.probationPeriod || "six (6)"} months</strong>, which may be reduced 
-                or extended as per the discretion of the Company & as per applicable laws. Your base 
-                location will be at {data.location || "________"} office. However, as and when required, 
-                your service can be transferred to any of the offices in India or abroad as per need 
-                of the business.
+                or extended at the discretion of the Company and as per applicable laws. Your base 
+                location will be the {data.location || "________"} office. However, as and when required, 
+                your services may be transferred to any of our offices in India or abroad as per 
+                business needs.
               </p>
               
               <p>
                 All compensation indicated in this letter is subject to continued satisfactory employment. 
                 In the event of any disciplinary issues, misconduct, or unsatisfactory performance, the 
-                Company reserves the right to terminate your employment immediately without notice or 
+                Company reserves the right to terminate employment immediately without notice or 
                 compensation, other than what is required by applicable law. This letter constitutes our 
                 complete offer package to recognize your new responsibilities and replaces and supersedes 
-                in its entirety over any other previous offer letter.
+                in its entirety any other previous offer letter.
               </p>
               
               <p>
                 Your appointment is subject to satisfactory reference checks and clearance from any 
-                secrecy / service agreements that you may have executed, which could have a bearing 
-                on your working with us.
+                confidentiality/service agreements that you may have executed, which could have a bearing 
+                on your employment with us.
               </p>
               
               <p>
@@ -115,10 +115,10 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               <img src={logoImg} alt="Codesmotech" className="h-10 mb-4" />
               
               <p>
-                This letter of offer is based on the information furnished in your application for 
-                employment and during the discussions you had with us. If, at any time in future, 
+                This offer letter is based on the information furnished in your application for 
+                employment and during discussions with us. If, at any time in the future, 
                 it comes to light that any of this information is incorrect or any relevant information 
-                has been withheld, then your employment is liable to be terminated without notice.
+                has been withheld, your employment may be terminated without notice.
               </p>
               
               {data.specialClause && (
@@ -130,20 +130,20 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               
               <p className="font-semibold">
                 We welcome you to our Company and look forward to your contribution to the global 
-                growth of the organisation and yourself.
+                growth of the organization and your professional development.
               </p>
               
               <p>
-                <strong>On the date of joining,</strong> please bring(or submit on email, as may be the case) 
-                the following documents for verification / submission
+                <strong>On the date of joining,</strong> please bring (or submit via email, as applicable) 
+                the following documents for verification/submission:
               </p>
               
               <ol className="list-decimal ml-6 space-y-1">
-                <li>Educational certificates and mark sheets.</li>
-                <li>Relieving letter & experience certificate from previous employer[s].</li>
-                <li>Salary certificate from previous employer.</li>
+                <li>Educational certificates and mark sheets</li>
+                <li>Relieving letter and experience certificate from previous employer(s)</li>
+                <li>Salary certificate from previous employer</li>
                 <li>Passport</li>
-                <li>Three passport size and one stamp size coloured photographs</li>
+                <li>Three passport-size and one stamp-size colored photographs</li>
                 <li>A cancelled cheque of your active bank account</li>
               </ol>
             </div>
@@ -180,8 +180,8 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               
               <div className="mt-8 space-y-4 text-sm">
                 <p>
-                  Your individual performance and community outreach will be graded in the four 
-                  key areas that are part of our Company's DNA :
+                  Your individual performance and community outreach will be evaluated across four 
+                  key areas that are part of our Company's DNA:
                 </p>
                 
                 <ul className="list-disc ml-6 space-y-1">
@@ -193,8 +193,8 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                 
                 <p>
                   Our induction program will brief you on our core values and the DNA components 
-                  mentioned above, as you start. Your assigned manager will work with you to draft 
-                  your annual charter in these four areas.
+                  mentioned above. Your assigned manager will work with you to develop 
+                  your annual goals across these four areas.
                 </p>
               </div>
             </div>
