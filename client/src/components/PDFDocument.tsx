@@ -63,13 +63,13 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
   return (
     <div className={containerClasses}>
-      {/* Page 1 - Cover Page with Logo */}
-      <div className="bg-white overflow-hidden relative" style={pageStyle}>
-        <div className="absolute top-8 left-8 z-10">
+      {/* Page 1 - Cover Page with Logo at Top Center */}
+      <div className="bg-white overflow-hidden" style={pageStyle}>
+        <div className="flex justify-center pt-8 pb-4">
           <img 
             src={displayLogo} 
             alt="Codesmotech" 
-            className="h-12"
+            className="h-16"
             style={{ imageRendering: 'crisp-edges' }}
           />
         </div>
@@ -84,6 +84,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 2 - Offer Details + Terms */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
+        <div className="mb-6">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-10"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
+        
         <div className={`${spacingSmallClasses} ${textClasses}`}>
           <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
           <p>{today}</p>
@@ -151,6 +160,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 3 - Documents & Closing */}
       <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
+        <div className="mb-6">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-10"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
+        
         <p className="font-semibold">
           We welcome you to our Company and look forward to your contribution to the global 
           growth of the organization and your professional development.
@@ -195,6 +213,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 4 - Annexure */}
       <div className={pageClasses} style={pageStyle}>
+        <div className="mb-6">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-10"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
+        
         <CompensationTable
           employeeName={data.employeeName}
           position={data.position}
@@ -229,6 +256,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 5 - Acceptance */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
+        <div className="mb-6">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-10"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
+        
         <div className="text-center space-y-4 py-8">
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
           <p className="text-lg font-semibold bg-primary/10 p-4 rounded">
