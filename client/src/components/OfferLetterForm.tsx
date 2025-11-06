@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -19,6 +19,7 @@ export interface OfferLetterData {
   location: string;
   dateOfJoining: string;
   acceptanceDeadline: string;
+  annualCTC: string;
   basicPay: string;
   hra: string;
   specialAllowance: string;
@@ -39,9 +40,10 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     location: "Gurgaon",
     dateOfJoining: "2025-11-06",
     acceptanceDeadline: "2025-11-05",
-    basicPay: "30000",
-    hra: "9666",
-    specialAllowance: "14500",
+    annualCTC: "650000",
+    basicPay: "",
+    hra: "",
+    specialAllowance: "",
     probationPeriod: "6",
     bonuses: [
       { label: "Retention Bonus", amount: "" }
@@ -50,8 +52,49 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
 
   const [isGenerating, setIsGenerating] = useState(false);
 
+  // Calculate breakdown on initial load if annualCTC is present
+  useEffect(() => {
+    if (formData.annualCTC && !formData.basicPay) {
+      const breakdown = calculateBreakdown(formData.annualCTC);
+      setFormData(prev => ({ ...prev, ...breakdown }));
+    }
+  }, []);
+
+  const calculateBreakdown = (annualCTC: string) => {
+    const ctc = parseFloat(annualCTC) || 0;
+    if (ctc === 0) {
+      return { basicPay: "", hra: "", specialAllowance: "" };
+    }
+    
+    // Calculate monthly CTC
+    const monthlyCTC = ctc / 12;
+    
+    // Standard breakdown:
+    // Basic Pay: 46.15% of monthly CTC (30000/65000)
+    // HRA: 14.87% of monthly CTC (9666/65000)
+    // Special Allowance: 39% of monthly CTC (remainder)
+    const basicPay = Math.round(monthlyCTC * 0.4615);
+    const hra = Math.round(monthlyCTC * 0.1487);
+    const specialAllowance = Math.round(monthlyCTC - basicPay - hra);
+    
+    return {
+      basicPay: basicPay.toString(),
+      hra: hra.toString(),
+      specialAllowance: specialAllowance.toString(),
+    };
+  };
+
   const handleChange = (field: keyof Omit<OfferLetterData, 'bonuses'>, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    if (field === 'annualCTC') {
+      const breakdown = calculateBreakdown(value);
+      setFormData(prev => ({ 
+        ...prev, 
+        [field]: value,
+        ...breakdown
+      }));
+    } else {
+      setFormData(prev => ({ ...prev, [field]: value }));
+    }
   };
 
   const handleBonusChange = (index: number, field: keyof BonusField, value: string) => {
@@ -203,50 +246,60 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
 
         <FormSection 
           title="Compensation Structure" 
-          description="Enter monthly compensation details and bonuses"
+          description="Enter annual CTC and bonuses (breakdown will be calculated automatically)"
         >
-          <div className="grid gap-6 md:grid-cols-3">
+          <div className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="basicPay" data-testid="label-basicPay">
-                Basic Pay (Monthly)
+              <Label htmlFor="annualCTC" data-testid="label-annualCTC">
+                Annual CTC (Cost to Company) <span className="text-destructive">*</span>
               </Label>
               <Input
-                id="basicPay"
-                data-testid="input-basicPay"
+                id="annualCTC"
+                data-testid="input-annualCTC"
                 type="number"
-                placeholder="30000"
-                value={formData.basicPay}
-                onChange={(e) => handleChange("basicPay", e.target.value)}
+                placeholder="650000"
+                value={formData.annualCTC}
+                onChange={(e) => handleChange("annualCTC", e.target.value)}
+                className="text-lg font-semibold"
               />
+              <p className="text-sm text-muted-foreground">
+                Enter the total annual package (excluding bonuses)
+              </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="hra" data-testid="label-hra">
-                House Rent Allowance
-              </Label>
-              <Input
-                id="hra"
-                data-testid="input-hra"
-                type="number"
-                placeholder="9666"
-                value={formData.hra}
-                onChange={(e) => handleChange("hra", e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="specialAllowance" data-testid="label-specialAllowance">
-                Special Allowance
-              </Label>
-              <Input
-                id="specialAllowance"
-                data-testid="input-specialAllowance"
-                type="number"
-                placeholder="14500"
-                value={formData.specialAllowance}
-                onChange={(e) => handleChange("specialAllowance", e.target.value)}
-              />
-            </div>
+            {formData.annualCTC && parseFloat(formData.annualCTC) > 0 && (
+              <div className="p-4 bg-muted rounded-lg space-y-3" data-testid="breakdown-summary">
+                <h4 className="font-semibold text-sm">Compensation Breakdown (Monthly)</h4>
+                <div className="grid grid-cols-3 gap-4 text-sm">
+                  <div className="space-y-1">
+                    <p className="text-muted-foreground">Basic Pay</p>
+                    <p className="font-semibold" data-testid="text-basic-breakdown">
+                      ₹{parseFloat(formData.basicPay || "0").toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-muted-foreground">HRA</p>
+                    <p className="font-semibold" data-testid="text-hra-breakdown">
+                      ₹{parseFloat(formData.hra || "0").toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-muted-foreground">Special Allowance</p>
+                    <p className="font-semibold" data-testid="text-special-breakdown">
+                      ₹{parseFloat(formData.specialAllowance || "0").toLocaleString('en-IN')}
+                    </p>
+                  </div>
+                </div>
+                <div className="pt-2 border-t border-border">
+                  <div className="flex justify-between items-center">
+                    <p className="text-sm text-muted-foreground">Monthly Total</p>
+                    <p className="font-bold text-primary" data-testid="text-monthly-total">
+                      ₹{(parseFloat(formData.annualCTC || "0") / 12).toLocaleString('en-IN', { maximumFractionDigits: 0 })}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
 
           <div className="space-y-4 mt-6">
