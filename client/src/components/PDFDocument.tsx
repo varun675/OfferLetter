@@ -101,7 +101,9 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           
           <p>
             On behalf of Codesmotech Technology Consulting Private Limited ("Company"), 
-            we are pleased to offer you the position of <strong>{data.position || "________"}</strong> 
+            we are pleased to offer you the position of <strong>{data.position || "________"}</strong>
+          </p>
+          <p>
             at our {data.location || "________"} location.
           </p>
           
@@ -158,7 +160,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 3 - Documents & Closing */}
+      {/* Page 3 - Documents, Closing & Annexure */}
       <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
         <div className="mb-6">
           <img 
@@ -195,7 +197,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           <p>For CodesmoTech Technology Consulting Private Limited</p>
         </div>
         
-        <div className="pt-8 space-y-2">
+        <div className="pt-8 space-y-2 mb-8">
           <p>{data.signatoryTitle || "VP, Operations and Finance"}</p>
           {data.signatureImage && (
             <div className="py-2">
@@ -208,18 +210,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
             </div>
           )}
           <p className="font-semibold">{data.signatoryName || "Rahul Sharma"}</p>
-        </div>
-      </div>
-
-      {/* Page 4 - Annexure */}
-      <div className={pageClasses} style={pageStyle}>
-        <div className="mb-6">
-          <img 
-            src={displayLogo} 
-            alt="Codesmotech" 
-            className="h-10"
-            style={{ imageRendering: 'crisp-edges' }}
-          />
         </div>
         
         <CompensationTable
@@ -254,7 +244,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 5 - Acceptance */}
+      {/* Page 4 - Acceptance */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
         <div className="mb-6">
           <img 
