@@ -16,6 +16,7 @@ interface PDFDocumentProps {
     location: string;
     dateOfJoining: string;
     acceptanceDeadline: string;
+    annualCTC: string;
     basicPay: string;
     hra: string;
     specialAllowance: string;
@@ -233,6 +234,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           hra={data.hra}
           specialAllowance={data.specialAllowance}
           bonuses={data.bonuses}
+          annualCTC={data.annualCTC}
           testIdSuffix={testIdSuffix}
         />
         

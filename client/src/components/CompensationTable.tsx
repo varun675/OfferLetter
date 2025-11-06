@@ -12,6 +12,7 @@ interface CompensationTableProps {
   hra: string;
   specialAllowance: string;
   bonuses: BonusField[];
+  annualCTC?: string;
 }
 
 export default function CompensationTable({
@@ -21,6 +22,7 @@ export default function CompensationTable({
   hra,
   specialAllowance,
   bonuses,
+  annualCTC,
   testIdSuffix = "",
 }: CompensationTableProps & { testIdSuffix?: string }) {
   const basic = parseFloat(basicPay) || 0;
@@ -34,7 +36,9 @@ export default function CompensationTable({
   }, 0);
   
   const totalCTCWithBonus = totalFixed + totalBonuses;
-  const roundedTotal = Math.round(totalCTCWithBonus);
+  
+  // Total CTC(RO) should be the entered Annual CTC, not calculated
+  const totalCTCRO = annualCTC ? parseFloat(annualCTC) : Math.round(totalCTCWithBonus);
 
   return (
     <div className="border rounded-lg overflow-hidden bg-card" data-testid={`compensation-table${testIdSuffix}`}>
@@ -129,7 +133,7 @@ export default function CompensationTable({
               <TableCell className="whitespace-nowrap">Total CTC(RO):</TableCell>
               <TableCell className="text-right"></TableCell>
               <TableCell className="text-right whitespace-nowrap" data-testid="cell-total-ctc">
-                {roundedTotal > 0 ? roundedTotal.toLocaleString('en-IN') : '—'}
+                {totalCTCRO > 0 ? totalCTCRO.toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
           </TableBody>

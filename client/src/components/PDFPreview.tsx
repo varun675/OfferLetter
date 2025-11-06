@@ -17,6 +17,7 @@ interface PDFPreviewProps {
     location: string;
     dateOfJoining: string;
     acceptanceDeadline: string;
+    annualCTC: string;
     basicPay: string;
     hra: string;
     specialAllowance: string;
