@@ -63,8 +63,16 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
   return (
     <div className={containerClasses}>
-      {/* Page 1 - Cover Page */}
-      <div className="bg-white overflow-hidden" style={pageStyle}>
+      {/* Page 1 - Cover Page with Logo */}
+      <div className="bg-white overflow-hidden relative" style={pageStyle}>
+        <div className="absolute top-8 left-8 z-10">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-12"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
         <img 
           src={coverPageImg} 
           alt="Offer Letter Cover" 
@@ -76,15 +84,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 2 - Offer Details */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
-        <div className="flex justify-center mb-6">
-          <img 
-            src={displayLogo} 
-            alt="Codesmotech" 
-            className={logoHeightClasses}
-            style={{ imageRendering: 'crisp-edges' }}
-          />
-        </div>
-        
         <div className={`${spacingSmallClasses} ${textClasses}`}>
           <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
           <p>{today}</p>
@@ -114,13 +113,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 3 - Terms, Documents & Closing (Combined) */}
       <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
-        <img 
-          src={displayLogo} 
-          alt="Codesmotech" 
-          className={`${logoSmallClasses} mb-4`}
-          style={{ imageRendering: 'crisp-edges' }}
-        />
-        
         <p>
           As per Company policy, the probation period applicable shall be{' '}
           <strong>{data.probationPeriod || "six (6)"} months</strong>, which may be reduced 
@@ -203,13 +195,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 4 - Annexure */}
       <div className={pageClasses} style={pageStyle}>
-        <img 
-          src={displayLogo} 
-          alt="Codesmotech" 
-          className={`${logoSmallClasses} mb-6`}
-          style={{ imageRendering: 'crisp-edges' }}
-        />
-        
         <CompensationTable
           employeeName={data.employeeName}
           position={data.position}
@@ -244,13 +229,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 5 - Acceptance */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
-        <img 
-          src={displayLogo} 
-          alt="Codesmotech" 
-          className={`${logoSmallClasses} mb-4`}
-          style={{ imageRendering: 'crisp-edges' }}
-        />
-        
         <div className="text-center space-y-4 py-8">
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
           <p className="text-lg font-semibold bg-primary/10 p-4 rounded">
