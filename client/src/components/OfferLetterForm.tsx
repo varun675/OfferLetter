@@ -45,7 +45,6 @@ interface OfferLetterFormProps {
 export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
   const { toast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
-  const pdfRef = useRef<HTMLDivElement>(null);
   const [formData, setFormData] = useState<OfferLetterData>({
     salutation: "Mr",
     employeeName: "Roshan Saroj",
@@ -163,30 +162,42 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       return;
     }
 
-    if (!pdfRef.current) {
-      toast({
-        title: "Error",
-        description: "PDF container not found. Please try again.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     setIsGenerating(true);
 
     try {
+      // Open preview dialog to render content
+      setShowPreview(true);
+      
+      // Wait for preview to render
+      await new Promise(resolve => setTimeout(resolve, 800));
+      
+      // Find the PDF content inside the dialog
+      const dialogContent = document.querySelector('[data-testid="dialog-pdf-preview"]');
+      if (!dialogContent) {
+        throw new Error("Preview dialog not found");
+      }
+      
+      // Find the actual PDF document content (inside ScrollArea)
+      const pdfContent = dialogContent.querySelector('.overflow-auto');
+      if (!pdfContent) {
+        throw new Error("PDF content not found in dialog");
+      }
+
       // Generate filename: EmployeeName_DateOfJoining.pdf
       const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
 
       // Configure html2pdf options
       const options = {
-        margin: 0,
+        margin: [10, 10, 10, 10] as [number, number, number, number],
         filename: fileName,
         image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { 
           scale: 2,
           useCORS: true,
-          letterRendering: true
+          letterRendering: true,
+          logging: true,
+          scrollY: 0,
+          scrollX: 0
         },
         jsPDF: { 
           unit: 'mm' as const, 
@@ -197,7 +208,10 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       };
 
       // Generate and download PDF
-      await html2pdf().set(options).from(pdfRef.current).save();
+      await html2pdf().set(options).from(pdfContent as HTMLElement).save();
+      
+      // Close preview dialog
+      setShowPreview(false);
 
       if (onGenerate) {
         onGenerate(formData);
@@ -209,6 +223,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       });
     } catch (error) {
       console.error('PDF generation error:', error);
+      setShowPreview(false);
       toast({
         title: "PDF Generation Failed",
         description: "There was an error generating the PDF. Please try again.",
@@ -680,11 +695,6 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         onOpenChange={setShowPreview} 
         data={formData}
       />
-
-      {/* Hidden PDF container for generation */}
-      <div ref={pdfRef} className="fixed -left-[9999px] top-0 w-[210mm] bg-white">
-        <PDFDocument data={formData} isPrintMode={true} />
-      </div>
     </>
   );
 }
