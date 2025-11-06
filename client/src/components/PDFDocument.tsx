@@ -41,47 +41,21 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
   const today = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const displayLogo = data.logoImage || logoImg;
 
-  // Style classes for print vs preview mode
-  const pageClasses = isPrintMode 
-    ? "bg-white p-8 page-break" 
-    : "bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2";
-  
-  const textClasses = isPrintMode 
-    ? "text-sm" 
-    : "text-xs sm:text-sm";
-  
-  const headingClasses = isPrintMode 
-    ? "text-2xl" 
-    : "text-lg sm:text-2xl";
-  
-  const logoHeightClasses = isPrintMode 
-    ? "h-14" 
-    : "h-10 sm:h-14";
-  
-  const logoSmallClasses = isPrintMode 
-    ? "h-8" 
-    : "h-6 sm:h-8";
-
-  const signatureClasses = isPrintMode
-    ? "h-16"
-    : "h-12";
-
-  const spacingClasses = isPrintMode 
-    ? "space-y-6" 
-    : "space-y-4 sm:space-y-6";
-  
-  const spacingSmallClasses = isPrintMode 
-    ? "space-y-4" 
-    : "space-y-3 sm:space-y-4";
-
-  const containerClasses = isPrintMode 
-    ? "space-y-8" 
-    : "space-y-4 sm:space-y-8";
+  // Consistent styling for both preview and PDF
+  const pageClasses = "bg-white p-8 page-break";
+  const textClasses = "text-sm";
+  const headingClasses = "text-2xl";
+  const logoHeightClasses = "h-14";
+  const logoSmallClasses = "h-8";
+  const signatureClasses = "h-16";
+  const spacingClasses = "space-y-6";
+  const spacingSmallClasses = "space-y-4";
+  const containerClasses = "space-y-8";
 
   return (
     <div className={containerClasses}>
       {/* Page 1 - Cover Page */}
-      <div className={isPrintMode ? "bg-white overflow-hidden page-break" : "bg-white rounded-md sm:rounded-lg border border-primary/20 sm:border-2 overflow-hidden"}>
+      <div className="bg-white overflow-hidden page-break">
         <img 
           src={coverPageImg} 
           alt="Offer Letter Cover" 
@@ -93,7 +67,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 2 - Offer Details */}
       <div className={`${pageClasses} ${spacingClasses}`}>
-        <div className={isPrintMode ? "flex justify-center mb-6" : "flex justify-center mb-4 sm:mb-6"}>
+        <div className="flex justify-center mb-6">
           <img 
             src={displayLogo} 
             alt="Codesmotech" 
