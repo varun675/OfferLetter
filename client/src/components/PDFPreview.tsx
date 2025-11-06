@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import CompensationTable from "./CompensationTable";
 import logoImg from "@assets/image_1762444072597.png";
+import coverPageImg from "@assets/image_1762444287787.png";
 
 interface BonusField {
   label: string;
@@ -52,7 +53,18 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
         
         <ScrollArea className="h-[calc(90vh-8rem)] pr-4">
           <div className="space-y-8">
-            {/* Page 1 */}
+            {/* Page 1 - Cover Page */}
+            <div className="bg-white rounded-lg border-2 border-primary/20 overflow-hidden">
+              <img 
+                src={coverPageImg} 
+                alt="Offer Letter Cover" 
+                className="w-full h-auto"
+                style={{ imageRendering: 'crisp-edges' }}
+                data-testid="img-cover-page"
+              />
+            </div>
+
+            {/* Page 2 - Offer Details */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
               <div className="flex justify-center mb-6">
                 <img 
@@ -90,7 +102,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </div>
             </div>
 
-            {/* Page 2 - Terms */}
+            {/* Page 3 - Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
               <img 
                 src={displayLogo} 
@@ -129,7 +141,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </p>
             </div>
 
-            {/* Page 3 - More Terms */}
+            {/* Page 4 - More Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
               <img 
                 src={displayLogo} 
@@ -172,7 +184,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </ol>
             </div>
 
-            {/* Page 4 - Closing */}
+            {/* Page 5 - Closing */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6 text-sm">
               <img 
                 src={displayLogo} 
@@ -204,7 +216,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </div>
             </div>
 
-            {/* Page 5 - Annexure */}
+            {/* Page 6 - Annexure */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20">
               <img 
                 src={displayLogo} 
@@ -243,7 +255,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </div>
             </div>
 
-            {/* Page 6 - Acceptance */}
+            {/* Page 7 - Acceptance */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
               <img 
                 src={displayLogo} 
