@@ -105,7 +105,7 @@ export default function SignaturePad({ onSave, existingSignature }: SignaturePad
         <canvas
           ref={canvasRef}
           data-testid="canvas-signature"
-          className="w-full h-40 cursor-crosshair touch-none"
+          className="w-full h-32 sm:h-40 cursor-crosshair touch-none"
           onMouseDown={startDrawing}
           onMouseMove={draw}
           onMouseUp={stopDrawing}
@@ -116,13 +116,14 @@ export default function SignaturePad({ onSave, existingSignature }: SignaturePad
         />
       </div>
       
-      <div className="flex gap-2">
+      <div className="flex flex-col sm:flex-row gap-2">
         <Button
           type="button"
           variant="outline"
           size="sm"
           onClick={clearSignature}
           data-testid="button-clear-signature"
+          className="w-full sm:w-auto"
         >
           <RefreshCw className="w-4 h-4 mr-2" />
           Clear
@@ -133,6 +134,7 @@ export default function SignaturePad({ onSave, existingSignature }: SignaturePad
           onClick={saveSignature}
           disabled={!hasDrawn}
           data-testid="button-save-signature"
+          className="w-full sm:w-auto"
         >
           Save Signature
         </Button>

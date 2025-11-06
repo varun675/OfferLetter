@@ -10,13 +10,13 @@ interface FormSectionProps {
 export default function FormSection({ title, description, children }: FormSectionProps) {
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-xl">{title}</CardTitle>
+      <CardHeader className="p-4 sm:p-6">
+        <CardTitle className="text-lg sm:text-xl">{title}</CardTitle>
         {description && (
-          <CardDescription className="text-sm">{description}</CardDescription>
+          <CardDescription className="text-xs sm:text-sm">{description}</CardDescription>
         )}
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-4 sm:space-y-6 p-4 sm:p-6">
         {children}
       </CardContent>
     </Card>

@@ -180,12 +180,12 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-8">
         <FormSection 
           title="Employee Information" 
           description="Enter the basic details of the employee"
         >
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="grid gap-4 sm:gap-6 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="salutation" data-testid="label-salutation">
                 Salutation <span className="text-destructive">*</span>
@@ -594,11 +594,12 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           </div>
         )}
 
-        <div className="flex gap-4 justify-end">
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-end">
           <Button
             type="button"
             variant="outline"
             data-testid="button-preview"
+            className="w-full sm:w-auto"
             onClick={() => {
               if (!formData.employeeName || !formData.position || !formData.dateOfJoining) {
                 toast({
@@ -618,6 +619,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           <Button 
             type="submit" 
             data-testid="button-generate"
+            className="w-full sm:w-auto"
             disabled={isGenerating}
           >
             {isGenerating ? (

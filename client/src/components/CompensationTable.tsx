@@ -61,7 +61,7 @@ export default function CompensationTable({
                 <TableHead className="text-right font-bold text-xs sm:text-sm">Per Annum</TableHead>
               </TableRow>
             </TableHeader>
-          <TableBody className="text-xs sm:text-sm">
+            <TableBody className="text-xs sm:text-sm">
             <TableRow>
               <TableCell className="whitespace-nowrap">Basic Pay</TableCell>
               <TableCell className="text-right whitespace-nowrap" data-testid="cell-basic-monthly">
@@ -132,7 +132,7 @@ export default function CompensationTable({
               </TableCell>
             </TableRow>
           </TableBody>
-        </Table>
+          </Table>
         </div>
       </div>
     </div>
