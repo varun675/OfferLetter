@@ -82,7 +82,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         />
       </div>
 
-      {/* Page 2 - Offer Details */}
+      {/* Page 2 - Offer Details + Terms */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
         <div className={`${spacingSmallClasses} ${textClasses}`}>
           <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
@@ -108,49 +108,49 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
             The structure of your compensation plan may be altered/edited in the future 
             in line with the compensation policy set forth by the Company.
           </p>
+          
+          <p>
+            As per Company policy, the probation period applicable shall be{' '}
+            <strong>{data.probationPeriod || "six (6)"} months</strong>, which may be reduced 
+            or extended at the discretion of the Company and as per applicable laws. Your base 
+            location will be the {data.location || "________"} office. However, as and when required, 
+            your services may be transferred to any of our offices in India or abroad as per 
+            business needs.
+          </p>
+          
+          <p>
+            All compensation indicated in this letter is subject to continued satisfactory employment. 
+            In the event of any disciplinary issues, misconduct, or unsatisfactory performance, the 
+            Company reserves the right to terminate employment immediately without notice or 
+            compensation, other than what is required by applicable law. This letter constitutes our 
+            complete offer package to recognize your new responsibilities and replaces and supersedes 
+            in its entirety any other previous offer letter.
+          </p>
+          
+          <p>
+            Your appointment is subject to satisfactory reference checks and clearance from any 
+            confidentiality/service agreements that you may have executed, which could have a bearing 
+            on your employment with us.
+          </p>
+          
+          <p>
+            This offer letter is based on the information furnished in your application for 
+            employment and during discussions with us. If, at any time in the future, 
+            it comes to light that any of this information is incorrect or any relevant information 
+            has been withheld, your employment may be terminated without notice.
+          </p>
+          
+          {data.specialClause && (
+            <div className="p-4 bg-primary/5 border-l-4 border-primary rounded my-4">
+              <p className="font-semibold text-sm mb-2">Special Terms & Conditions:</p>
+              <p className="whitespace-pre-wrap">{data.specialClause}</p>
+            </div>
+          )}
         </div>
       </div>
 
-      {/* Page 3 - Terms, Documents & Closing (Combined) */}
+      {/* Page 3 - Documents & Closing */}
       <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
-        <p>
-          As per Company policy, the probation period applicable shall be{' '}
-          <strong>{data.probationPeriod || "six (6)"} months</strong>, which may be reduced 
-          or extended at the discretion of the Company and as per applicable laws. Your base 
-          location will be the {data.location || "________"} office. However, as and when required, 
-          your services may be transferred to any of our offices in India or abroad as per 
-          business needs.
-        </p>
-        
-        <p>
-          All compensation indicated in this letter is subject to continued satisfactory employment. 
-          In the event of any disciplinary issues, misconduct, or unsatisfactory performance, the 
-          Company reserves the right to terminate employment immediately without notice or 
-          compensation, other than what is required by applicable law. This letter constitutes our 
-          complete offer package to recognize your new responsibilities and replaces and supersedes 
-          in its entirety any other previous offer letter.
-        </p>
-        
-        <p>
-          Your appointment is subject to satisfactory reference checks and clearance from any 
-          confidentiality/service agreements that you may have executed, which could have a bearing 
-          on your employment with us.
-        </p>
-        
-        <p>
-          This offer letter is based on the information furnished in your application for 
-          employment and during discussions with us. If, at any time in the future, 
-          it comes to light that any of this information is incorrect or any relevant information 
-          has been withheld, your employment may be terminated without notice.
-        </p>
-        
-        {data.specialClause && (
-          <div className="p-4 bg-primary/5 border-l-4 border-primary rounded my-4">
-            <p className="font-semibold text-sm mb-2">Special Terms & Conditions:</p>
-            <p className="whitespace-pre-wrap">{data.specialClause}</p>
-          </div>
-        )}
-        
         <p className="font-semibold">
           We welcome you to our Company and look forward to your contribution to the global 
           growth of the organization and your professional development.
