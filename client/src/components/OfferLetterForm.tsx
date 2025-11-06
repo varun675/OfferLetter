@@ -165,24 +165,31 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     setIsGenerating(true);
 
     try {
-      // Open preview dialog to render content
+      // Open preview dialog first
       setShowPreview(true);
       
-      // Wait for preview to render
-      await new Promise(resolve => setTimeout(resolve, 800));
+      // Wait for dialog to render
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
-      // Find the PDF content inside the dialog
-      const dialogContent = document.querySelector('[data-testid="dialog-pdf-preview"]');
-      if (!dialogContent) {
-        throw new Error("Preview dialog not found");
+      // Find the scroll area (which already has the correct height!)
+      const scrollArea = document.querySelector('[data-testid="dialog-pdf-preview"] .overflow-auto') as HTMLElement;
+      if (!scrollArea) {
+        throw new Error('Preview content not found');
       }
       
-      // Find the actual PDF document content (inside ScrollArea)
-      const pdfContent = dialogContent.querySelector('.overflow-auto');
-      if (!pdfContent) {
-        throw new Error("PDF content not found in dialog");
-      }
-
+      // Store original styles
+      const originalOverflow = scrollArea.style.overflow;
+      const originalMaxHeight = scrollArea.style.maxHeight;
+      const originalHeight = scrollArea.style.height;
+      
+      // Temporarily remove scroll restrictions so all content is visible
+      scrollArea.style.overflow = 'visible';
+      scrollArea.style.maxHeight = 'none';
+      scrollArea.style.height = 'auto';
+      
+      // Wait for layout to adjust
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
       // Generate filename: EmployeeName_DateOfJoining.pdf
       const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
 
@@ -197,7 +204,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           letterRendering: true,
           logging: true,
           scrollY: 0,
-          scrollX: 0
+          scrollX: 0,
+          windowHeight: scrollArea.scrollHeight + 200
         },
         jsPDF: { 
           unit: 'mm' as const, 
@@ -207,10 +215,15 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
       };
 
-      // Generate and download PDF
-      await html2pdf().set(options).from(pdfContent as HTMLElement).save();
+      // Generate and download PDF (capture the scrollArea itself)
+      await html2pdf().set(options).from(scrollArea).save();
       
-      // Close preview dialog
+      // Restore original scroll styles
+      scrollArea.style.overflow = originalOverflow;
+      scrollArea.style.maxHeight = originalMaxHeight;
+      scrollArea.style.height = originalHeight;
+      
+      // Close dialog
       setShowPreview(false);
 
       if (onGenerate) {
@@ -223,7 +236,6 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       });
     } catch (error) {
       console.error('PDF generation error:', error);
-      setShowPreview(false);
       toast({
         title: "PDF Generation Failed",
         description: "There was an error generating the PDF. Please try again.",
