@@ -43,7 +43,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
   const displayLogo = data.logoImage || logoImg;
 
   // Consistent styling for both preview and PDF
-  const pageClasses = "bg-white p-8 page-break";
+  const pageClasses = "bg-white p-8";
   const textClasses = "text-sm";
   const headingClasses = "text-2xl";
   const logoHeightClasses = "h-14";
@@ -51,12 +51,12 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
   const signatureClasses = "h-16";
   const spacingClasses = "space-y-6";
   const spacingSmallClasses = "space-y-4";
-  const containerClasses = "space-y-8";
+  const containerClasses = "space-y-0";
 
   return (
     <div className={containerClasses}>
       {/* Page 1 - Cover Page */}
-      <div className="bg-white overflow-hidden page-break">
+      <div className="bg-white overflow-hidden mb-8">
         <img 
           src={coverPageImg} 
           alt="Offer Letter Cover" 
@@ -67,7 +67,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 2 - Offer Details */}
-      <div className={`${pageClasses} ${spacingClasses}`}>
+      <div className={`${pageClasses} ${spacingClasses} mb-8`}>
         <div className="flex justify-center mb-6">
           <img 
             src={displayLogo} 
@@ -104,12 +104,12 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 3 - Terms */}
-      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`}>
+      {/* Page 3 - Terms, Documents & Closing (Combined) */}
+      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses} mb-8`}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
-          className={`${logoSmallClasses} ${isPrintMode ? "mb-4" : "mb-3 sm:mb-4"}`}
+          className={`${logoSmallClasses} mb-4`}
           style={{ imageRendering: 'crisp-edges' }}
         />
         
@@ -138,21 +138,6 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </p>
         
         <p>
-          Any promises or representations, whether written or oral, related to your terms of 
-          employment are subject to your appointment letter.
-        </p>
-      </div>
-
-      {/* Page 4 - More Terms */}
-      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`}>
-        <img 
-          src={displayLogo} 
-          alt="Codesmotech" 
-          className={`${logoSmallClasses} ${isPrintMode ? "mb-4" : "mb-3 sm:mb-4"}`}
-          style={{ imageRendering: 'crisp-edges' }}
-        />
-        
-        <p>
           This offer letter is based on the information furnished in your application for 
           employment and during discussions with us. If, at any time in the future, 
           it comes to light that any of this information is incorrect or any relevant information 
@@ -160,7 +145,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </p>
         
         {data.specialClause && (
-          <div className="p-4 bg-primary/5 border-l-4 border-primary rounded">
+          <div className="p-4 bg-primary/5 border-l-4 border-primary rounded my-4">
             <p className="font-semibold text-sm mb-2">Special Terms & Conditions:</p>
             <p className="whitespace-pre-wrap">{data.specialClause}</p>
           </div>
@@ -176,7 +161,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           the following documents for verification/submission:
         </p>
         
-        <ol className="list-decimal ml-6 space-y-1">
+        <ol className="list-decimal ml-6 space-y-1 mb-4">
           <li>Educational certificates and mark sheets</li>
           <li>Relieving letter and experience certificate from previous employer(s)</li>
           <li>Salary certificate from previous employer</li>
@@ -184,20 +169,10 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           <li>Three passport-size and one stamp-size colored photographs</li>
           <li>A cancelled cheque of your active bank account</li>
         </ol>
-      </div>
-
-      {/* Page 5 - Closing */}
-      <div className={`${pageClasses} ${spacingClasses} ${textClasses}`}>
-        <img 
-          src={displayLogo} 
-          alt="Codesmotech" 
-          className={`${logoSmallClasses} ${isPrintMode ? "mb-4" : "mb-3 sm:mb-4"}`}
-          style={{ imageRendering: 'crisp-edges' }}
-        />
         
         <p>Wish you all the best!</p>
         
-        <div className="space-y-1">
+        <div className="space-y-1 mt-4">
           <p>Yours Sincerely,</p>
           <p>For CodesmoTech Technology Consulting Private Limited</p>
         </div>
@@ -218,12 +193,12 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 6 - Annexure */}
-      <div className={pageClasses}>
+      {/* Page 4 - Annexure */}
+      <div className={`${pageClasses} mb-8`}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
-          className={`${logoSmallClasses} ${isPrintMode ? "mb-6" : "mb-4 sm:mb-6"}`}
+          className={`${logoSmallClasses} mb-6`}
           style={{ imageRendering: 'crisp-edges' }}
         />
         
@@ -238,7 +213,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           testIdSuffix={testIdSuffix}
         />
         
-        <div className={`${isPrintMode ? "mt-8 space-y-4" : "mt-4 sm:mt-8 space-y-3 sm:space-y-4"} ${textClasses}`}>
+        <div className={`mt-8 space-y-4 ${textClasses}`}>
           <p>
             Your individual performance and community outreach will be evaluated across four 
             key areas that are part of our Company's DNA:
@@ -259,12 +234,12 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 7 - Acceptance */}
+      {/* Page 5 - Acceptance */}
       <div className={`${pageClasses} ${spacingClasses}`}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
-          className={`${logoSmallClasses} ${isPrintMode ? "mb-4" : "mb-3 sm:mb-4"}`}
+          className={`${logoSmallClasses} mb-4`}
           style={{ imageRendering: 'crisp-edges' }}
         />
         
