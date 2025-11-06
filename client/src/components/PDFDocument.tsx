@@ -115,7 +115,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           </p>
           
           <p>
-            Your compensation package would be as listed in <strong>Annexure below</strong>. 
+            Your compensation package will be listed below. 
             The structure of your compensation plan may be altered/edited in the future 
             in line with the compensation policy set forth by the Company.
           </p>
@@ -192,15 +192,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         
         <p>Wish you all the best!</p>
         
-        <div className="space-y-1 mt-4">
+        <div className="mt-4">
           <p>Yours Sincerely,</p>
           <p>For CodesmoTech Technology Consulting Private Limited</p>
         </div>
         
-        <div className="pt-8 space-y-2 mb-8">
+        <div className="pt-4 mb-8">
           <p>{data.signatoryTitle || "VP, Operations and Finance"}</p>
           {data.signatureImage && (
-            <div className="py-2">
+            <div className="py-1">
               <img 
                 src={data.signatureImage} 
                 alt="Signature" 

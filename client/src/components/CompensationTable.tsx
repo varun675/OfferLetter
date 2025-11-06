@@ -43,8 +43,7 @@ export default function CompensationTable({
   return (
     <div className="border rounded-lg overflow-hidden bg-card" data-testid={`compensation-table${testIdSuffix}`}>
       <div className="bg-primary/10 p-3 sm:p-4 border-b">
-        <h3 className="font-bold text-base sm:text-lg">ANNEXURE</h3>
-        <p className="text-xs sm:text-sm text-muted-foreground">SALARY STRUCTURE</p>
+        <h3 className="font-bold text-base sm:text-lg">SALARY STRUCTURE</h3>
       </div>
       
       <div className="p-3 sm:p-4">
