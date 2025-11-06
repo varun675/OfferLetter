@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import FormSection from "./FormSection";
 import CompensationTable from "./CompensationTable";
 import PDFPreview from "./PDFPreview";
@@ -15,6 +16,7 @@ interface BonusField {
 }
 
 export interface OfferLetterData {
+  salutation: string;
   employeeName: string;
   position: string;
   location: string;
@@ -37,6 +39,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
   const { toast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState<OfferLetterData>({
+    salutation: "Mr",
     employeeName: "Roshan Saroj",
     position: "Digital Consultant",
     location: "Gurgaon",
@@ -161,6 +164,25 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           description="Enter the basic details of the employee"
         >
           <div className="grid gap-6 md:grid-cols-2">
+            <div className="space-y-2">
+              <Label htmlFor="salutation" data-testid="label-salutation">
+                Salutation <span className="text-destructive">*</span>
+              </Label>
+              <Select
+                value={formData.salutation}
+                onValueChange={(value) => handleChange("salutation", value)}
+              >
+                <SelectTrigger id="salutation" data-testid="select-salutation">
+                  <SelectValue placeholder="Select salutation" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Mr" data-testid="option-mr">Mr</SelectItem>
+                  <SelectItem value="Ms" data-testid="option-ms">Ms</SelectItem>
+                  <SelectItem value="Mrs" data-testid="option-mrs">Mrs</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
             <div className="space-y-2">
               <Label htmlFor="employeeName" data-testid="label-employeeName">
                 Employee Name <span className="text-destructive">*</span>

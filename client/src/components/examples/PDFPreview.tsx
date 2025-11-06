@@ -6,6 +6,7 @@ export default function PDFPreviewExample() {
   const [open, setOpen] = useState(true);
   
   const sampleData = {
+    salutation: "Mr",
     employeeName: "Roshan Saroj",
     position: "Digital Consultant",
     location: "Gurgaon",

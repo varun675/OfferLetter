@@ -13,6 +13,7 @@ interface PDFPreviewProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   data: {
+    salutation: string;
     employeeName: string;
     position: string;
     location: string;
@@ -50,7 +51,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               <img src={logoImg} alt="Codesmotech" className="h-12 mb-6" />
               
               <div className="space-y-4 text-sm">
-                <p><strong>To: {data.employeeName || "________"}</strong></p>
+                <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
                 <p>{today}</p>
                 <p><strong>Dear {data.employeeName ? data.employeeName.split(' ')[0] : "________"},</strong></p>
                 <p>Congratulations!</p>
