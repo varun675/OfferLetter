@@ -181,13 +181,13 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           the following documents for verification/submission:
         </p>
         
-        <ol className="list-decimal ml-6 space-y-1 mb-4">
-          <li>Educational certificates and mark sheets</li>
-          <li>Relieving letter and experience certificate from previous employer(s)</li>
-          <li>Salary certificate from previous employer</li>
-          <li>Passport</li>
-          <li>Three passport-size and one stamp-size colored photographs</li>
-          <li>A cancelled cheque of your active bank account</li>
+        <ol className="list-decimal pl-8 space-y-1 mb-4" style={{ paddingLeft: '2rem' }}>
+          <li className="pl-2">Educational certificates and mark sheets</li>
+          <li className="pl-2">Relieving letter and experience certificate from previous employer(s)</li>
+          <li className="pl-2">Salary certificate from previous employer</li>
+          <li className="pl-2">Passport</li>
+          <li className="pl-2">Three passport-size and one stamp-size colored photographs</li>
+          <li className="pl-2">A cancelled cheque of your active bank account</li>
         </ol>
         
         <p>Wish you all the best!</p>
