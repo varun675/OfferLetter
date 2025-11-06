@@ -34,16 +34,18 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
   const { toast } = useToast();
   const [showPreview, setShowPreview] = useState(false);
   const [formData, setFormData] = useState<OfferLetterData>({
-    employeeName: "",
-    position: "",
-    location: "",
-    dateOfJoining: "",
-    acceptanceDeadline: "",
-    basicPay: "",
-    hra: "",
-    specialAllowance: "",
+    employeeName: "Roshan Saroj",
+    position: "Digital Consultant",
+    location: "Gurgaon",
+    dateOfJoining: "2025-11-06",
+    acceptanceDeadline: "2025-11-05",
+    basicPay: "30000",
+    hra: "9666",
+    specialAllowance: "14500",
     probationPeriod: "6",
-    bonuses: [],
+    bonuses: [
+      { label: "Retention Bonus", amount: "" }
+    ],
   });
 
   const [isGenerating, setIsGenerating] = useState(false);
