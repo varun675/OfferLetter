@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import FormSection from "./FormSection";
 import CompensationTable from "./CompensationTable";
 import PDFPreview from "./PDFPreview";
@@ -24,6 +25,7 @@ export interface OfferLetterData {
   hra: string;
   specialAllowance: string;
   probationPeriod: string;
+  specialClause: string;
   bonuses: BonusField[];
 }
 
@@ -45,6 +47,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     hra: "",
     specialAllowance: "",
     probationPeriod: "6",
+    specialClause: "",
     bonuses: [
       { label: "Retention Bonus", amount: "" }
     ],
@@ -357,6 +360,29 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
                 </Button>
               </div>
             ))}
+          </div>
+        </FormSection>
+
+        <FormSection 
+          title="Special Clauses (Optional)" 
+          description="Add any special terms or conditions for this offer"
+        >
+          <div className="space-y-2">
+            <Label htmlFor="specialClause" data-testid="label-specialClause">
+              Special Terms & Conditions
+            </Label>
+            <Textarea
+              id="specialClause"
+              data-testid="input-specialClause"
+              placeholder="e.g., This position requires international travel up to 30% of the time. The candidate will be eligible for performance bonus after successful completion of probation period."
+              value={formData.specialClause}
+              onChange={(e) => handleChange("specialClause", e.target.value)}
+              rows={5}
+              className="resize-none"
+            />
+            <p className="text-sm text-muted-foreground">
+              This clause will appear in the offer letter before the welcome message
+            </p>
           </div>
         </FormSection>
 

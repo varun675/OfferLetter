@@ -22,6 +22,7 @@ interface PDFPreviewProps {
     hra: string;
     specialAllowance: string;
     probationPeriod: string;
+    specialClause: string;
     bonuses: BonusField[];
   };
 }
@@ -119,6 +120,13 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                 it comes to light that any of this information is incorrect or any relevant information 
                 has been withheld, then your employment is liable to be terminated without notice.
               </p>
+              
+              {data.specialClause && (
+                <div className="p-4 bg-primary/5 border-l-4 border-primary rounded">
+                  <p className="font-semibold text-sm mb-2">Special Terms & Conditions:</p>
+                  <p className="whitespace-pre-wrap">{data.specialClause}</p>
+                </div>
+              )}
               
               <p className="font-semibold">
                 We welcome you to our Company and look forward to your contribution to the global 

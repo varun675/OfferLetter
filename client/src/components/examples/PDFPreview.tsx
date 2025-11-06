@@ -15,6 +15,7 @@ export default function PDFPreviewExample() {
     hra: "9666",
     specialAllowance: "14500",
     probationPeriod: "6",
+    specialClause: "This position requires international travel up to 30% of the time. The candidate will be eligible for performance bonus after successful completion of probation period.",
     bonuses: [
       { label: "Retention Bonus", amount: "100000" }
     ]
