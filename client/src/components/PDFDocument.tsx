@@ -51,12 +51,20 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
   const signatureClasses = "h-16";
   const spacingClasses = "space-y-6";
   const spacingSmallClasses = "space-y-4";
-  const containerClasses = "space-y-0";
+  const containerClasses = "space-y-4";
+  
+  // A4 page dimensions (at 96 DPI)
+  const pageStyle = isPrintMode ? {} : {
+    minHeight: '297mm',
+    width: '210mm',
+    boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+    margin: '0 auto'
+  };
 
   return (
     <div className={containerClasses}>
       {/* Page 1 - Cover Page */}
-      <div className="bg-white overflow-hidden mb-8">
+      <div className="bg-white overflow-hidden" style={pageStyle}>
         <img 
           src={coverPageImg} 
           alt="Offer Letter Cover" 
@@ -67,7 +75,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 2 - Offer Details */}
-      <div className={`${pageClasses} ${spacingClasses} mb-8`}>
+      <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
         <div className="flex justify-center mb-6">
           <img 
             src={displayLogo} 
@@ -105,7 +113,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 3 - Terms, Documents & Closing (Combined) */}
-      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses} mb-8`}>
+      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
@@ -194,7 +202,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 4 - Annexure */}
-      <div className={`${pageClasses} mb-8`}>
+      <div className={pageClasses} style={pageStyle}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
@@ -235,7 +243,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 5 - Acceptance */}
-      <div className={`${pageClasses} ${spacingClasses}`}>
+      <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
         <img 
           src={displayLogo} 
           alt="Codesmotech" 
@@ -243,31 +251,31 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           style={{ imageRendering: 'crisp-edges' }}
         />
         
-        <div className={`text-center ${spacingSmallClasses} ${isPrintMode ? "py-8" : "py-4 sm:py-8"}`}>
+        <div className="text-center space-y-4 py-8">
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
-          <p className={`${isPrintMode ? "text-lg" : "text-sm sm:text-lg"} font-semibold bg-primary/10 p-${isPrintMode ? "4" : "3 sm:p-4"} rounded`}>
+          <p className="text-lg font-semibold bg-primary/10 p-4 rounded">
             We need your CONFIRMATION
           </p>
         </div>
         
-        <div className={`border ${isPrintMode ? "border-2" : "border border-border sm:border-2"} rounded-lg p-${isPrintMode ? "8 space-y-8" : "4 sm:p-8 space-y-4 sm:space-y-8"} ${textClasses}`}>
+        <div className={`border border-2 rounded-lg p-8 space-y-8 ${textClasses}`}>
           <p>I hereby acknowledge and accept the offer mentioned above.</p>
           
-          <div className={`grid grid-cols-2 gap-${isPrintMode ? "8 pt-8" : "4 sm:gap-8 pt-4 sm:pt-8"}`}>
+          <div className="grid grid-cols-2 gap-8 pt-8">
             <div className="space-y-2">
-              <p className={`${textClasses} text-muted-foreground`}>Signature</p>
-              <Separator className={`border-t ${isPrintMode ? "border-t-2" : "border-border sm:border-t-2"}`} />
+              <p className="text-sm text-muted-foreground">Signature</p>
+              <Separator className="border-t border-t-2" />
             </div>
             
             <div className="space-y-2">
-              <p className={`${textClasses} text-muted-foreground`}>Date</p>
-              <Separator className={`border-t ${isPrintMode ? "border-t-2" : "border-border sm:border-t-2"}`} />
+              <p className="text-sm text-muted-foreground">Date</p>
+              <Separator className="border-t border-t-2" />
             </div>
           </div>
           
-          <div className={`space-y-2 ${isPrintMode ? "pt-4" : "pt-2 sm:pt-4"}`}>
-            <p className={`${textClasses} text-muted-foreground`}>Name:</p>
-            <Separator className={`border-t ${isPrintMode ? "border-t-2" : "border-border sm:border-t-2"}`} />
+          <div className="space-y-2 pt-4">
+            <p className="text-sm text-muted-foreground">Name:</p>
+            <Separator className="border-t border-t-2" />
           </div>
         </div>
       </div>
