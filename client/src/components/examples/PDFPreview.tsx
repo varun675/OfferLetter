@@ -18,6 +18,8 @@ export default function PDFPreviewExample() {
     probationPeriod: "6",
     specialClause: "This position requires international travel up to 30% of the time. The candidate will be eligible for performance bonus after successful completion of probation period.",
     logoImage: "",
+    signatoryTitle: "VP, Operations and Finance",
+    signatoryName: "Rahul Sharma",
     signatureImage: "",
     bonuses: [
       { label: "Retention Bonus", amount: "100000" }

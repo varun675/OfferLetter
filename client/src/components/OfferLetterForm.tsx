@@ -30,6 +30,8 @@ export interface OfferLetterData {
   probationPeriod: string;
   specialClause: string;
   logoImage: string;
+  signatoryTitle: string;
+  signatoryName: string;
   signatureImage: string;
   bonuses: BonusField[];
 }
@@ -55,6 +57,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
     probationPeriod: "6",
     specialClause: "",
     logoImage: "",
+    signatoryTitle: "VP, Operations and Finance",
+    signatoryName: "Rahul Sharma",
     signatureImage: "",
     bonuses: [
       { label: "Retention Bonus", amount: "" }
@@ -288,10 +292,11 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         </FormSection>
 
         <FormSection 
-          title="Company Branding" 
-          description="Upload company logo and authorized signatory signature"
+          title="Company Branding & Signatory" 
+          description="Upload company logo and configure authorized signatory details"
         >
-          <div className="grid gap-6 md:grid-cols-2">
+          <div className="space-y-6">
+            {/* Logo Upload */}
             <div className="space-y-2">
               <Label htmlFor="logoUpload" data-testid="label-logo">
                 Company Logo
@@ -329,6 +334,41 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
               <p className="text-sm text-muted-foreground">
                 Upload your company logo (recommended: PNG with transparent background)
               </p>
+            </div>
+
+            {/* Signatory Information */}
+            <div className="grid gap-6 md:grid-cols-2">
+              <div className="space-y-2">
+                <Label htmlFor="signatoryTitle" data-testid="label-signatoryTitle">
+                  Signatory Title
+                </Label>
+                <Input
+                  id="signatoryTitle"
+                  data-testid="input-signatoryTitle"
+                  placeholder="e.g., VP, Operations and Finance"
+                  value={formData.signatoryTitle}
+                  onChange={(e) => handleChange("signatoryTitle", e.target.value)}
+                />
+                <p className="text-sm text-muted-foreground">
+                  Job title of the person signing the offer letter
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="signatoryName" data-testid="label-signatoryName">
+                  Signatory Name
+                </Label>
+                <Input
+                  id="signatoryName"
+                  data-testid="input-signatoryName"
+                  placeholder="e.g., Rahul Sharma"
+                  value={formData.signatoryName}
+                  onChange={(e) => handleChange("signatoryName", e.target.value)}
+                />
+                <p className="text-sm text-muted-foreground">
+                  Full name of the authorized signatory
+                </p>
+              </div>
             </div>
 
             <div className="space-y-3">
@@ -396,7 +436,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
               </div>
               
               <p className="text-sm text-muted-foreground">
-                Signature for VP, Operations and Finance (Rahul Sharma)
+                Signature of {formData.signatoryName || "authorized signatory"}
               </p>
             </div>
           </div>

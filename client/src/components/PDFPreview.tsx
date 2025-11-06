@@ -25,6 +25,8 @@ interface PDFPreviewProps {
     probationPeriod: string;
     specialClause: string;
     logoImage: string;
+    signatoryTitle: string;
+    signatoryName: string;
     signatureImage: string;
     bonuses: BonusField[];
   };
@@ -165,7 +167,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
               </div>
               
               <div className="pt-8 space-y-2">
-                <p>VP, Operations and Finance</p>
+                <p>{data.signatoryTitle || "VP, Operations and Finance"}</p>
                 {data.signatureImage && (
                   <div className="py-2">
                     <img 
@@ -176,7 +178,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                     />
                   </div>
                 )}
-                <p className="font-semibold">Rahul Sharma</p>
+                <p className="font-semibold">{data.signatoryName || "Rahul Sharma"}</p>
               </div>
             </div>
 
