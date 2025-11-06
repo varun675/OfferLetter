@@ -54,7 +54,14 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
           <div className="space-y-8">
             {/* Page 1 */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
-              <img src={displayLogo} alt="Codesmotech" className="h-12 mb-6" />
+              <div className="flex justify-center mb-6">
+                <img 
+                  src={displayLogo} 
+                  alt="Codesmotech" 
+                  className="h-14"
+                  style={{ imageRendering: 'crisp-edges' }}
+                />
+              </div>
               
               <div className="space-y-4 text-sm">
                 <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
@@ -85,7 +92,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 2 - Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
-              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
+              <img 
+                src={displayLogo} 
+                alt="Codesmotech" 
+                className="h-8 mb-4"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
               
               <p>
                 As per Company policy, the probation period applicable shall be{' '}
@@ -119,7 +131,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 3 - More Terms */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
-              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
+              <img 
+                src={displayLogo} 
+                alt="Codesmotech" 
+                className="h-8 mb-4"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
               
               <p>
                 This offer letter is based on the information furnished in your application for 
@@ -157,7 +174,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 4 - Closing */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6 text-sm">
-              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
+              <img 
+                src={displayLogo} 
+                alt="Codesmotech" 
+                className="h-8 mb-4"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
               
               <p>Wish you all the best!</p>
               
@@ -184,7 +206,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 5 - Annexure */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20">
-              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-6" />
+              <img 
+                src={displayLogo} 
+                alt="Codesmotech" 
+                className="h-8 mb-6"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
               
               <CompensationTable
                 employeeName={data.employeeName}
@@ -218,7 +245,12 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
             {/* Page 6 - Acceptance */}
             <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
-              <img src={displayLogo} alt="Codesmotech" className="h-10 mb-4" />
+              <img 
+                src={displayLogo} 
+                alt="Codesmotech" 
+                className="h-8 mb-4"
+                style={{ imageRendering: 'crisp-edges' }}
+              />
               
               <div className="text-center space-y-4 py-8">
                 <h3 className="text-2xl font-bold">TO BE FILLED BY THE CONSULTANT</h3>
