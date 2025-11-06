@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import FormSection from "./FormSection";
 import CompensationTable from "./CompensationTable";
 import PDFPreview from "./PDFPreview";
+import SignaturePad from "./SignaturePad";
 import { FileText, Download, Plus, Trash2, Upload, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -330,42 +331,72 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
               </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="signatureUpload" data-testid="label-signature">
+            <div className="space-y-3">
+              <Label data-testid="label-signature">
                 Authorized Signature
               </Label>
-              <div className="space-y-3">
-                <Input
-                  id="signatureUpload"
-                  type="file"
-                  accept="image/*"
-                  data-testid="input-signature"
-                  onChange={(e) => handleFileUpload('signatureImage', e.target.files?.[0] || null)}
-                  className="cursor-pointer"
-                />
+              
+              <div className="space-y-4">
+                {/* Signature Pad */}
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Draw Signature (Touchscreen/Mouse)</p>
+                  <SignaturePad 
+                    onSave={(signatureData) => setFormData(prev => ({ ...prev, signatureImage: signatureData }))}
+                    existingSignature={formData.signatureImage}
+                  />
+                </div>
+
+                {/* OR Divider */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-background px-2 text-muted-foreground">Or Upload</span>
+                  </div>
+                </div>
+
+                {/* File Upload */}
+                <div className="space-y-2">
+                  <p className="text-sm font-medium">Upload Signature Image</p>
+                  <Input
+                    id="signatureUpload"
+                    type="file"
+                    accept="image/*"
+                    data-testid="input-signature"
+                    onChange={(e) => handleFileUpload('signatureImage', e.target.files?.[0] || null)}
+                    className="cursor-pointer"
+                  />
+                </div>
+
+                {/* Preview */}
                 {formData.signatureImage && (
-                  <div className="relative inline-block">
-                    <img 
-                      src={formData.signatureImage} 
-                      alt="Signature Preview" 
-                      className="h-16 object-contain border rounded p-2"
-                      data-testid="preview-signature"
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-destructive text-destructive-foreground"
-                      onClick={() => setFormData(prev => ({ ...prev, signatureImage: "" }))}
-                      data-testid="button-remove-signature"
-                    >
-                      <X className="w-3 h-3" />
-                    </Button>
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium">Current Signature:</p>
+                    <div className="relative inline-block">
+                      <img 
+                        src={formData.signatureImage} 
+                        alt="Signature Preview" 
+                        className="h-20 object-contain border rounded p-2 bg-white"
+                        data-testid="preview-signature"
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="icon"
+                        className="absolute -top-2 -right-2 h-6 w-6 rounded-full bg-destructive text-destructive-foreground"
+                        onClick={() => setFormData(prev => ({ ...prev, signatureImage: "" }))}
+                        data-testid="button-remove-signature"
+                      >
+                        <X className="w-3 h-3" />
+                      </Button>
+                    </div>
                   </div>
                 )}
               </div>
+              
               <p className="text-sm text-muted-foreground">
-                Upload signature of VP, Operations and Finance (or use touchscreen to sign)
+                Signature for VP, Operations and Finance (Rahul Sharma)
               </p>
             </div>
           </div>
