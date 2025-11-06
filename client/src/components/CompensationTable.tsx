@@ -37,13 +37,13 @@ export default function CompensationTable({
 
   return (
     <div className="border rounded-lg overflow-hidden bg-card" data-testid="compensation-table">
-      <div className="bg-primary/10 p-4 border-b">
-        <h3 className="font-bold text-lg">ANNEXURE</h3>
-        <p className="text-sm text-muted-foreground">SALARY STRUCTURE</p>
+      <div className="bg-primary/10 p-3 sm:p-4 border-b">
+        <h3 className="font-bold text-base sm:text-lg">ANNEXURE</h3>
+        <p className="text-xs sm:text-sm text-muted-foreground">SALARY STRUCTURE</p>
       </div>
       
-      <div className="p-4">
-        <div className="mb-4 grid grid-cols-2 gap-4 text-sm">
+      <div className="p-3 sm:p-4">
+        <div className="mb-3 sm:mb-4 grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4 text-xs sm:text-sm">
           <div>
             <span className="font-semibold">Name:</span> {employeeName || "—"}
           </div>
@@ -52,51 +52,52 @@ export default function CompensationTable({
           </div>
         </div>
 
-        <Table>
-          <TableHeader>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="font-bold text-xs sm:text-sm">(i) Monthly Payments:</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm">Per Month</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm">Per Annum</TableHead>
+              </TableRow>
+            </TableHeader>
+          <TableBody className="text-xs sm:text-sm">
             <TableRow>
-              <TableHead className="font-bold">(i) Monthly Payments:</TableHead>
-              <TableHead className="text-right font-bold">Per Month</TableHead>
-              <TableHead className="text-right font-bold">Per Annum</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            <TableRow>
-              <TableCell>Basic Pay</TableCell>
-              <TableCell className="text-right" data-testid="cell-basic-monthly">
+              <TableCell className="whitespace-nowrap">Basic Pay</TableCell>
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-basic-monthly">
                 {basic > 0 ? basic.toLocaleString('en-IN') : '—'}
               </TableCell>
-              <TableCell className="text-right" data-testid="cell-basic-annual">
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-basic-annual">
                 {basic > 0 ? (basic * 12).toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
             
             <TableRow>
-              <TableCell>House Rent Allowance</TableCell>
-              <TableCell className="text-right" data-testid="cell-hra-monthly">
+              <TableCell className="whitespace-nowrap">House Rent Allowance</TableCell>
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-hra-monthly">
                 {hraVal > 0 ? hraVal.toLocaleString('en-IN') : '—'}
               </TableCell>
-              <TableCell className="text-right" data-testid="cell-hra-annual">
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-hra-annual">
                 {hraVal > 0 ? (hraVal * 12).toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
             
             <TableRow>
-              <TableCell>Special Allowance</TableCell>
-              <TableCell className="text-right" data-testid="cell-special-monthly">
+              <TableCell className="whitespace-nowrap">Special Allowance</TableCell>
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-special-monthly">
                 {special > 0 ? special.toLocaleString('en-IN') : '—'}
               </TableCell>
-              <TableCell className="text-right" data-testid="cell-special-annual">
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-special-annual">
                 {special > 0 ? (special * 12).toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
             
             <TableRow className="font-semibold bg-muted/50">
-              <TableCell>Total Gross Fixed CTC(I)</TableCell>
-              <TableCell className="text-right" data-testid="cell-fixed-monthly">
+              <TableCell className="whitespace-nowrap">Total Gross Fixed CTC(I)</TableCell>
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-fixed-monthly">
                 {totalFixed > 0 ? totalFixed.toLocaleString('en-IN') : '—'}
               </TableCell>
-              <TableCell className="text-right" data-testid="cell-fixed-annual">
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-fixed-annual">
                 {totalFixed > 0 ? (totalFixed * 12).toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
@@ -104,9 +105,9 @@ export default function CompensationTable({
             {bonuses.map((bonus, index) => (
               bonus.label && parseFloat(bonus.amount) > 0 && (
                 <TableRow key={index}>
-                  <TableCell>{bonus.label}</TableCell>
+                  <TableCell className="whitespace-nowrap">{bonus.label}</TableCell>
                   <TableCell className="text-right"></TableCell>
-                  <TableCell className="text-right" data-testid={`cell-bonus-${index}`}>
+                  <TableCell className="text-right whitespace-nowrap" data-testid={`cell-bonus-${index}`}>
                     {parseFloat(bonus.amount).toLocaleString('en-IN')}
                   </TableCell>
                 </TableRow>
@@ -115,23 +116,24 @@ export default function CompensationTable({
             
             {totalBonuses > 0 && (
               <TableRow className="font-semibold">
-                <TableCell>Total CTC(I+II):</TableCell>
+                <TableCell className="whitespace-nowrap">Total CTC(I+II):</TableCell>
                 <TableCell className="text-right"></TableCell>
-                <TableCell className="text-right" data-testid="cell-ctc-with-bonus">
+                <TableCell className="text-right whitespace-nowrap" data-testid="cell-ctc-with-bonus">
                   {totalCTCWithBonus.toLocaleString('en-IN')}
                 </TableCell>
               </TableRow>
             )}
             
             <TableRow className="font-bold bg-primary/20">
-              <TableCell>Total CTC(RO):</TableCell>
+              <TableCell className="whitespace-nowrap">Total CTC(RO):</TableCell>
               <TableCell className="text-right"></TableCell>
-              <TableCell className="text-right" data-testid="cell-total-ctc">
+              <TableCell className="text-right whitespace-nowrap" data-testid="cell-total-ctc">
                 {roundedTotal > 0 ? roundedTotal.toLocaleString('en-IN') : '—'}
               </TableCell>
             </TableRow>
           </TableBody>
         </Table>
+        </div>
       </div>
     </div>
   );

@@ -46,15 +46,15 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh]" data-testid="dialog-pdf-preview">
-        <DialogHeader>
-          <DialogTitle>Offer Letter Preview</DialogTitle>
+      <DialogContent className="w-full max-w-full sm:max-w-4xl h-screen sm:h-auto max-h-screen sm:max-h-[90vh] p-3 sm:p-6" data-testid="dialog-pdf-preview">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-lg sm:text-xl">Offer Letter Preview</DialogTitle>
         </DialogHeader>
         
-        <ScrollArea className="h-[calc(90vh-8rem)] pr-4">
-          <div className="space-y-8">
+        <ScrollArea className="h-[calc(100vh-6rem)] sm:h-[calc(90vh-8rem)] pr-2 sm:pr-4">
+          <div className="space-y-4 sm:space-y-8">
             {/* Page 1 - Cover Page */}
-            <div className="bg-white rounded-lg border-2 border-primary/20 overflow-hidden">
+            <div className="bg-white rounded-md sm:rounded-lg border border-primary/20 sm:border-2 overflow-hidden">
               <img 
                 src={coverPageImg} 
                 alt="Offer Letter Cover" 
@@ -65,17 +65,17 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 2 - Offer Details */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
-              <div className="flex justify-center mb-6">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2 space-y-4 sm:space-y-6">
+              <div className="flex justify-center mb-4 sm:mb-6">
                 <img 
                   src={displayLogo} 
                   alt="Codesmotech" 
-                  className="h-14"
+                  className="h-10 sm:h-14"
                   style={{ imageRendering: 'crisp-edges' }}
                 />
               </div>
               
-              <div className="space-y-4 text-sm">
+              <div className="space-y-3 sm:space-y-4 text-xs sm:text-sm">
                 <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
                 <p>{today}</p>
                 <p><strong>Dear {data.employeeName ? data.employeeName.split(' ')[0] : "________"},</strong></p>
@@ -103,11 +103,11 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 3 - Terms */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2 space-y-3 sm:space-y-4 text-xs sm:text-sm">
               <img 
                 src={displayLogo} 
                 alt="Codesmotech" 
-                className="h-8 mb-4"
+                className="h-6 sm:h-8 mb-3 sm:mb-4"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               
@@ -142,11 +142,11 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 4 - More Terms */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-4 text-sm">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2 space-y-3 sm:space-y-4 text-xs sm:text-sm">
               <img 
                 src={displayLogo} 
                 alt="Codesmotech" 
-                className="h-8 mb-4"
+                className="h-6 sm:h-8 mb-3 sm:mb-4"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               
@@ -185,11 +185,11 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 5 - Closing */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6 text-sm">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2 space-y-4 sm:space-y-6 text-xs sm:text-sm">
               <img 
                 src={displayLogo} 
                 alt="Codesmotech" 
-                className="h-8 mb-4"
+                className="h-6 sm:h-8 mb-3 sm:mb-4"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               
@@ -217,11 +217,11 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 6 - Annexure */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2">
               <img 
                 src={displayLogo} 
                 alt="Codesmotech" 
-                className="h-8 mb-6"
+                className="h-6 sm:h-8 mb-4 sm:mb-6"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               
@@ -234,7 +234,7 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
                 bonuses={data.bonuses}
               />
               
-              <div className="mt-8 space-y-4 text-sm">
+              <div className="mt-4 sm:mt-8 space-y-3 sm:space-y-4 text-xs sm:text-sm">
                 <p>
                   Your individual performance and community outreach will be evaluated across four 
                   key areas that are part of our Company's DNA:
@@ -256,39 +256,39 @@ export default function PDFPreview({ open, onOpenChange, data }: PDFPreviewProps
             </div>
 
             {/* Page 7 - Acceptance */}
-            <div className="bg-white p-8 rounded-lg border-2 border-primary/20 space-y-6">
+            <div className="bg-white p-4 sm:p-8 rounded-md sm:rounded-lg border border-primary/20 sm:border-2 space-y-4 sm:space-y-6">
               <img 
                 src={displayLogo} 
                 alt="Codesmotech" 
-                className="h-8 mb-4"
+                className="h-6 sm:h-8 mb-3 sm:mb-4"
                 style={{ imageRendering: 'crisp-edges' }}
               />
               
-              <div className="text-center space-y-4 py-8">
-                <h3 className="text-2xl font-bold">TO BE FILLED BY THE CONSULTANT</h3>
-                <p className="text-lg font-semibold bg-primary/10 p-4 rounded">
+              <div className="text-center space-y-3 sm:space-y-4 py-4 sm:py-8">
+                <h3 className="text-lg sm:text-2xl font-bold">TO BE FILLED BY THE CONSULTANT</h3>
+                <p className="text-sm sm:text-lg font-semibold bg-primary/10 p-3 sm:p-4 rounded">
                   We need your CONFIRMATION
                 </p>
               </div>
               
-              <div className="border-2 border-border rounded-lg p-8 space-y-8">
+              <div className="border border-border sm:border-2 rounded-lg p-4 sm:p-8 space-y-4 sm:space-y-8 text-xs sm:text-sm">
                 <p>I hereby acknowledge and accept the offer mentioned above.</p>
                 
-                <div className="grid grid-cols-2 gap-8 pt-8">
+                <div className="grid grid-cols-2 gap-4 sm:gap-8 pt-4 sm:pt-8">
                   <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">Signature</p>
-                    <Separator className="border-t-2 border-border" />
+                    <p className="text-xs sm:text-sm text-muted-foreground">Signature</p>
+                    <Separator className="border-t border-border sm:border-t-2" />
                   </div>
                   
                   <div className="space-y-2">
-                    <p className="text-sm text-muted-foreground">Date</p>
-                    <Separator className="border-t-2 border-border" />
+                    <p className="text-xs sm:text-sm text-muted-foreground">Date</p>
+                    <Separator className="border-t border-border sm:border-t-2" />
                   </div>
                 </div>
                 
-                <div className="space-y-2 pt-4">
-                  <p className="text-sm text-muted-foreground">Name:</p>
-                  <Separator className="border-t-2 border-border" />
+                <div className="space-y-2 pt-2 sm:pt-4">
+                  <p className="text-xs sm:text-sm text-muted-foreground">Name:</p>
+                  <Separator className="border-t border-border sm:border-t-2" />
                 </div>
               </div>
             </div>
