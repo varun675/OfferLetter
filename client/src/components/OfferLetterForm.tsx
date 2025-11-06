@@ -202,7 +202,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           scale: 2,
           useCORS: true,
           letterRendering: true,
-          logging: true,
+          logging: false,
           scrollY: 0,
           scrollX: 0,
           windowHeight: scrollArea.scrollHeight + 200
@@ -210,9 +210,15 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         jsPDF: { 
           unit: 'mm' as const, 
           format: 'a4' as const, 
-          orientation: 'portrait' as const
+          orientation: 'portrait' as const,
+          compress: true
         },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak: { 
+          mode: ['css', 'legacy'],
+          before: '.page-break',
+          after: '.page-break',
+          avoid: 'img'
+        }
       };
 
       // Generate and download PDF (capture the scrollArea itself)

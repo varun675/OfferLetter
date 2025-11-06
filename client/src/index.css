@@ -349,3 +349,31 @@
     inset: -1px;
   }
 }
+
+/* PDF Page Break Styles */
+@media print {
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  
+  .page-break:last-child {
+    page-break-after: auto;
+    break-after: auto;
+  }
+}
+
+/* For html2pdf library - force page breaks */
+.page-break {
+  page-break-after: always !important;
+  page-break-inside: avoid !important;
+  break-after: page !important;
+  break-inside: avoid !important;
+  display: block;
+  position: relative;
+}
+
+.page-break:last-child {
+  page-break-after: auto !important;
+  break-after: auto !important;
+}
