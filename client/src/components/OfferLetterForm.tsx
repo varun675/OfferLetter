@@ -196,18 +196,21 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       
       // Find all page divs with data-pdf-page attribute and constrain them for PDF
       const pages = scrollArea.querySelectorAll('[data-pdf-page]');
-      const originalPageStyles: { width: string; boxSizing: string; padding: string }[] = [];
+      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string }[] = [];
       pages.forEach((page) => {
         const htmlPage = page as HTMLElement;
         originalPageStyles.push({
           width: htmlPage.style.width,
           boxSizing: htmlPage.style.boxSizing,
-          padding: htmlPage.style.padding
+          padding: htmlPage.style.padding,
+          minHeight: htmlPage.style.minHeight
         });
-        // Force pages to exactly 190mm with zero padding
-        htmlPage.style.width = '190mm';
+        // Set pages to full A4 size (210mm x 297mm) with internal padding
+        // We'll set html2pdf margins to 0 and handle margins as internal padding instead
+        htmlPage.style.width = '210mm';
         htmlPage.style.boxSizing = 'border-box';
-        htmlPage.style.padding = '0';
+        htmlPage.style.padding = '10mm'; // Internal padding instead of html2pdf margins
+        htmlPage.style.minHeight = '297mm';
       });
       
       // Find all tables and set explicit widths for PDF generation
@@ -233,8 +236,9 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
 
       // Configure html2pdf options
+      // Set margins to 0 because we handle margins as internal padding in each page
       const options = {
-        margin: [10, 10, 10, 10] as [number, number, number, number],
+        margin: [0, 0, 0, 0] as [number, number, number, number],
         filename: fileName,
         image: { type: 'jpeg' as const, quality: 0.98 },
         html2canvas: { 
@@ -275,6 +279,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlPage.style.width = originalPageStyles[index].width;
         htmlPage.style.boxSizing = originalPageStyles[index].boxSizing;
         htmlPage.style.padding = originalPageStyles[index].padding;
+        htmlPage.style.minHeight = originalPageStyles[index].minHeight;
       });
       
       // Restore original table styles

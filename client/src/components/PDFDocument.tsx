@@ -222,20 +222,8 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           annualCTC={data.annualCTC}
           testIdSuffix={testIdSuffix}
         />
-      </div>
-
-      {/* Page 4 - DNA Values */}
-      <div className={`${pageClasses} ${spacingClasses} ${textClasses}`} style={pageStyle} data-pdf-page>
-        <div className="mb-6">
-          <img 
-            src={displayLogo} 
-            alt="Codesmotech" 
-            className="h-10"
-            style={{ imageRendering: 'crisp-edges' }}
-          />
-        </div>
         
-        <div className="space-y-4">
+        <div className={`mt-8 space-y-4 ${textClasses}`}>
           <p>
             Your individual performance and community outreach will be evaluated across four 
             key areas that are part of our Company's DNA:
@@ -256,11 +244,13 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 5 - Acceptance */}
+      {/* Page 5 - Acceptance (forced to new page) */}
       <div 
         className={`${pageClasses} ${spacingClasses}`} 
         style={{
           ...pageStyle,
+          pageBreakBefore: 'always',
+          breakBefore: 'page',
           pageBreakInside: 'avoid',
           breakInside: 'avoid',
         }}
