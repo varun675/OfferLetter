@@ -184,6 +184,9 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       const originalWidth = scrollArea.style.width;
       const originalBoxSizing = scrollArea.style.boxSizing;
       const originalPadding = scrollArea.style.padding;
+      const originalGap = scrollArea.style.gap;
+      const originalPaddingTop = scrollArea.style.paddingTop;
+      const originalPaddingBottom = scrollArea.style.paddingBottom;
       
       // Temporarily remove scroll restrictions so all content is visible
       scrollArea.style.overflow = 'visible';
@@ -193,10 +196,13 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.boxSizing = 'border-box';
       scrollArea.style.width = '210mm';
       scrollArea.style.padding = '0';
+      scrollArea.style.gap = '0'; // Remove space-y gap from wrapper
+      scrollArea.style.paddingTop = '0';
+      scrollArea.style.paddingBottom = '0';
       
       // Find all page divs with data-pdf-page attribute and constrain them for PDF
       const pages = scrollArea.querySelectorAll('[data-pdf-page]');
-      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string; marginTop: string; display: string }[] = [];
+      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string; marginTop: string }[] = [];
       pages.forEach((page, index) => {
         const htmlPage = page as HTMLElement;
         originalPageStyles.push({
@@ -204,16 +210,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           boxSizing: htmlPage.style.boxSizing,
           padding: htmlPage.style.padding,
           minHeight: htmlPage.style.minHeight,
-          marginTop: htmlPage.style.marginTop,
-          display: htmlPage.style.display
+          marginTop: htmlPage.style.marginTop
         });
-        
-        // Hide pages beyond the 5th page (index 4) to prevent them from being rasterized
-        // This prevents empty 6th page from being included in the PDF
-        if (index > 4) {
-          htmlPage.style.display = 'none';
-          console.log(`Hiding page ${index + 1} from PDF generation`);
-        }
         
         // Set pages to full A4 size (210mm x 297mm) with internal padding
         // We'll set html2pdf margins to 0 and handle margins as internal padding instead
@@ -240,14 +238,22 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlTable.style.boxSizing = 'border-box';
       });
       
-      // Force layout flush to ensure display:none is applied before html2pdf captures DOM
-      // Double requestAnimationFrame ensures styles are fully committed
+      // Force layout flush to ensure all style changes are committed
       await new Promise(resolve => requestAnimationFrame(() => {
         requestAnimationFrame(resolve);
       }));
       
-      // Wait for layout to adjust
-      await new Promise(resolve => setTimeout(resolve, 300));
+      // Diagnostic logging
+      const totalHeight = scrollArea.scrollHeight;
+      const expectedHeight = 297 * 5; // 5 pages × 297mm
+      console.log(`ScrollArea total height: ${totalHeight}px (~${(totalHeight / 3.7795).toFixed(0)}mm)`);
+      console.log(`Expected height for 5 pages: ${expectedHeight}mm (${(expectedHeight * 3.7795).toFixed(0)}px)`);
+      
+      pages.forEach((page, index) => {
+        const htmlPage = page as HTMLElement;
+        const rect = htmlPage.getBoundingClientRect();
+        console.log(`Page ${index + 1} height: ${rect.height}px (~${(rect.height / 3.7795).toFixed(0)}mm), display: ${htmlPage.style.display}`);
+      });
       
       // Generate filename: EmployeeName_DateOfJoining.pdf
       const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
@@ -265,7 +271,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           logging: false,
           scrollY: 0,
           scrollX: 0,
-          windowHeight: scrollArea.scrollHeight + 200
+          windowHeight: scrollArea.scrollHeight
         },
         jsPDF: { 
           unit: 'mm' as const, 
@@ -279,8 +285,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         }
       };
 
-      console.log('Starting PDF generation with first 5 pages only...');
-      // Generate PDF (pages beyond 5th are already hidden via display:none and flushed)
+      console.log('Starting PDF generation...');
       await html2pdf().set(options).from(scrollArea).save();
       console.log('PDF generation complete');
       
@@ -291,6 +296,9 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.width = originalWidth;
       scrollArea.style.boxSizing = originalBoxSizing;
       scrollArea.style.padding = originalPadding;
+      scrollArea.style.gap = originalGap;
+      scrollArea.style.paddingTop = originalPaddingTop;
+      scrollArea.style.paddingBottom = originalPaddingBottom;
       
       // Restore original page styles
       pages.forEach((page, index) => {
@@ -300,7 +308,6 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlPage.style.padding = originalPageStyles[index].padding;
         htmlPage.style.minHeight = originalPageStyles[index].minHeight;
         htmlPage.style.marginTop = originalPageStyles[index].marginTop;
-        htmlPage.style.display = originalPageStyles[index].display;
       });
       
       // Restore original table styles
