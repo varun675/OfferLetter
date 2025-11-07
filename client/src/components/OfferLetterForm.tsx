@@ -187,8 +187,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.overflow = 'visible';
       scrollArea.style.maxHeight = 'none';
       scrollArea.style.height = 'auto';
-      // Set explicit width for PDF generation (A4 width in pixels at 96dpi ≈ 794px)
-      scrollArea.style.width = '794px';
+      // Set explicit width for PDF generation (A4 printable width with 10mm margins ≈ 718px)
+      scrollArea.style.width = '720px';
       
       // Find all tables and set explicit widths for PDF generation
       const tables = scrollArea.querySelectorAll('table');
@@ -199,7 +199,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           width: htmlTable.style.width,
           tableLayout: htmlTable.style.tableLayout
         });
-        htmlTable.style.width = '750px';
+        htmlTable.style.width = '680px';
         htmlTable.style.tableLayout = 'fixed';
       });
       
