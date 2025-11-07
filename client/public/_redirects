@@ -1,1 +1,11 @@
-/* /index.html 200
+# Single Page Apps for GitHub Pages
+# https://github.com/rafgraph/spa-github-pages
+#
+# The following redirects are required because GitHub Pages doesn't support SPA routing
+# out of the box. This file tells the server to redirect all requests to index.html
+# and let the client-side router handle the routing.
+#
+# This works in production (GitHub Pages) and in development (using Vite's dev server).
+
+/*    /index.html   200
+/not-found    /index.html   404
