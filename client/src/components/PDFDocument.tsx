@@ -244,11 +244,13 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 5 - Acceptance */}
+      {/* Page 5 - Acceptance (forced to new page) */}
       <div 
         className={`${pageClasses} ${spacingClasses}`} 
         style={{
           ...pageStyle,
+          pageBreakBefore: 'always',
+          breakBefore: 'page',
           pageBreakInside: 'avoid',
           breakInside: 'avoid',
         }}
