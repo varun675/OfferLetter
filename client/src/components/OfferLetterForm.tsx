@@ -181,11 +181,27 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       const originalOverflow = scrollArea.style.overflow;
       const originalMaxHeight = scrollArea.style.maxHeight;
       const originalHeight = scrollArea.style.height;
+      const originalWidth = scrollArea.style.width;
       
       // Temporarily remove scroll restrictions so all content is visible
       scrollArea.style.overflow = 'visible';
       scrollArea.style.maxHeight = 'none';
       scrollArea.style.height = 'auto';
+      // Set explicit width for PDF generation (A4 width in pixels at 96dpi ≈ 794px)
+      scrollArea.style.width = '794px';
+      
+      // Find all tables and set explicit widths for PDF generation
+      const tables = scrollArea.querySelectorAll('table');
+      const originalTableStyles: { width: string; tableLayout: string }[] = [];
+      tables.forEach((table) => {
+        const htmlTable = table as HTMLElement;
+        originalTableStyles.push({
+          width: htmlTable.style.width,
+          tableLayout: htmlTable.style.tableLayout
+        });
+        htmlTable.style.width = '750px';
+        htmlTable.style.tableLayout = 'fixed';
+      });
       
       // Wait for layout to adjust
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -226,6 +242,14 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.overflow = originalOverflow;
       scrollArea.style.maxHeight = originalMaxHeight;
       scrollArea.style.height = originalHeight;
+      scrollArea.style.width = originalWidth;
+      
+      // Restore original table styles
+      tables.forEach((table, index) => {
+        const htmlTable = table as HTMLElement;
+        htmlTable.style.width = originalTableStyles[index].width;
+        htmlTable.style.tableLayout = originalTableStyles[index].tableLayout;
+      });
       
       // Close dialog
       setShowPreview(false);
