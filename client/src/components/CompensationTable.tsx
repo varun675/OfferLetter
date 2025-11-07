@@ -38,7 +38,8 @@ export default function CompensationTable({
   const totalCTCWithBonus = totalFixed + totalBonuses;
   
   // Total CTC(RO) should be the entered Annual CTC, not calculated
-  const totalCTCRO = annualCTC ? parseFloat(annualCTC) : Math.round(totalCTCWithBonus);
+  // If no annualCTC provided, calculate as monthly total × 12
+  const totalCTCRO = annualCTC ? parseFloat(annualCTC) : Math.round(totalCTCWithBonus * 12);
 
   return (
     <div className="border rounded-lg overflow-hidden bg-card" data-testid={`compensation-table${testIdSuffix}`}>
@@ -57,12 +58,12 @@ export default function CompensationTable({
         </div>
 
         <div className="overflow-x-auto">
-          <Table>
+          <Table style={{ minWidth: '100%', width: '100%' }}>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold text-xs sm:text-sm">(i) Monthly Payments:</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm">Per Month</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm">Per Annum</TableHead>
+                <TableHead className="font-bold text-xs sm:text-sm" style={{ minWidth: '180px' }}>(i) Monthly Payments:</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ minWidth: '100px' }}>Per Month</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ minWidth: '110px' }}>Per Annum</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs sm:text-sm">
