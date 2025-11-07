@@ -58,12 +58,12 @@ export default function CompensationTable({
         </div>
 
         <div className="overflow-x-auto">
-          <Table style={{ minWidth: '100%', width: '100%' }}>
+          <Table style={{ width: '100%', tableLayout: 'fixed' }}>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold text-xs sm:text-sm" style={{ minWidth: '180px' }}>(i) Monthly Payments:</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ minWidth: '100px' }}>Per Month</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ minWidth: '110px' }}>Per Annum</TableHead>
+                <TableHead className="font-bold text-xs sm:text-sm" style={{ width: '45%' }}>(i) Monthly Payments:</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '27.5%' }}>Per Month</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '27.5%' }}>Per Annum</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs sm:text-sm">
