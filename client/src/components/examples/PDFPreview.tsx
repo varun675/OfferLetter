@@ -12,6 +12,7 @@ export default function PDFPreviewExample() {
     location: "Gurgaon",
     dateOfJoining: "2025-11-06",
     acceptanceDeadline: "2025-11-05",
+    annualCTC: "2,000,000",
     basicPay: "30000",
     hra: "9666",
     specialAllowance: "14500",

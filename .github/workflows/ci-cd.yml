@@ -1,7 +1,7 @@
 name: CI/CD Pipeline
 
 on:
-  # Run on push to main or master, but ignore changes to documentation
+  # Only run on push to main/master, not on pull requests
   push:
     branches: 
       - main
@@ -10,12 +10,6 @@ on:
       - '**/README.md'
       - '**/LICENSE'
       - '**/.gitignore'
-  
-  # Run on pull requests targeting main or master
-  pull_request:
-    branches: 
-      - main
-      - master
 
 jobs:
   build-and-deploy:
