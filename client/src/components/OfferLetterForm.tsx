@@ -182,25 +182,32 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       const originalMaxHeight = scrollArea.style.maxHeight;
       const originalHeight = scrollArea.style.height;
       const originalWidth = scrollArea.style.width;
+      const originalBoxSizing = scrollArea.style.boxSizing;
+      const originalPadding = scrollArea.style.padding;
       
       // Temporarily remove scroll restrictions so all content is visible
       scrollArea.style.overflow = 'visible';
       scrollArea.style.maxHeight = 'none';
       scrollArea.style.height = 'auto';
-      // Set explicit width for PDF generation (A4 printable width with 10mm margins ≈ 718px)
-      scrollArea.style.width = '720px';
+      // Set explicit width for PDF generation (A4 width minus margins: 210mm - 20mm = 190mm)
+      scrollArea.style.boxSizing = 'border-box';
+      scrollArea.style.width = '190mm';
+      scrollArea.style.padding = '0';
       
       // Find all tables and set explicit widths for PDF generation
       const tables = scrollArea.querySelectorAll('table');
-      const originalTableStyles: { width: string; tableLayout: string }[] = [];
+      const originalTableStyles: { width: string; tableLayout: string; boxSizing: string }[] = [];
       tables.forEach((table) => {
         const htmlTable = table as HTMLElement;
         originalTableStyles.push({
           width: htmlTable.style.width,
-          tableLayout: htmlTable.style.tableLayout
+          tableLayout: htmlTable.style.tableLayout,
+          boxSizing: htmlTable.style.boxSizing
         });
-        htmlTable.style.width = '680px';
+        // Table width: 180mm (leaves 5mm padding on each side within 190mm container)
+        htmlTable.style.width = '180mm';
         htmlTable.style.tableLayout = 'fixed';
+        htmlTable.style.boxSizing = 'border-box';
       });
       
       // Wait for layout to adjust
@@ -243,12 +250,15 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.maxHeight = originalMaxHeight;
       scrollArea.style.height = originalHeight;
       scrollArea.style.width = originalWidth;
+      scrollArea.style.boxSizing = originalBoxSizing;
+      scrollArea.style.padding = originalPadding;
       
       // Restore original table styles
       tables.forEach((table, index) => {
         const htmlTable = table as HTMLElement;
         htmlTable.style.width = originalTableStyles[index].width;
         htmlTable.style.tableLayout = originalTableStyles[index].tableLayout;
+        htmlTable.style.boxSizing = originalTableStyles[index].boxSizing;
       });
       
       // Close dialog
