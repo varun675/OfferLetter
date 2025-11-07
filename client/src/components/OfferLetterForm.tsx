@@ -189,9 +189,9 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.overflow = 'visible';
       scrollArea.style.maxHeight = 'none';
       scrollArea.style.height = 'auto';
-      // Set explicit width for PDF generation (A4 width minus margins: 210mm - 20mm = 190mm)
+      // Set explicit width for PDF generation to match page width (210mm = full A4 width)
       scrollArea.style.boxSizing = 'border-box';
-      scrollArea.style.width = '190mm';
+      scrollArea.style.width = '210mm';
       scrollArea.style.padding = '0';
       
       // Find all page divs with data-pdf-page attribute and constrain them for PDF
