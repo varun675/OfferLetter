@@ -246,7 +246,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
 
       {/* Page 4 - Acceptance */}
       <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
-        <div className="mb-6">
+        <div className="mb-4">
           <img 
             src={displayLogo} 
             alt="Codesmotech" 
@@ -255,17 +255,17 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           />
         </div>
         
-        <div className="text-center space-y-4 py-8">
+        <div className="text-center space-y-3 py-4">
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
-          <p className="text-lg font-semibold bg-primary/10 p-4 rounded">
+          <p className="text-lg font-semibold bg-primary/10 p-3 rounded">
             We need your CONFIRMATION
           </p>
         </div>
         
-        <div className={`border border-2 rounded-lg p-8 space-y-8 ${textClasses}`}>
+        <div className={`border border-2 rounded-lg p-6 space-y-6 ${textClasses}`}>
           <p>I hereby acknowledge and accept the offer mentioned above.</p>
           
-          <div className="grid grid-cols-2 gap-8 pt-8">
+          <div className="grid grid-cols-2 gap-8 pt-6">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Signature</p>
               <Separator className="border-t border-t-2" />
@@ -277,7 +277,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
             </div>
           </div>
           
-          <div className="space-y-2 pt-4">
+          <div className="space-y-2 pt-3">
             <p className="text-sm text-muted-foreground">Name:</p>
             <Separator className="border-t border-t-2" />
           </div>
