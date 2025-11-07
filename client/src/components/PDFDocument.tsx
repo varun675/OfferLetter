@@ -245,8 +245,15 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 4 - Acceptance */}
-      <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
-        <div className="mb-4">
+      <div 
+        className={`${pageClasses} ${spacingClasses}`} 
+        style={{
+          ...pageStyle,
+          pageBreakInside: 'avoid',
+          breakInside: 'avoid',
+        }}
+      >
+        <div className="mb-4" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
           <img 
             src={displayLogo} 
             alt="Codesmotech" 
@@ -255,14 +262,20 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           />
         </div>
         
-        <div className="text-center space-y-3 py-4">
+        <div 
+          className="text-center space-y-3 py-4"
+          style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}
+        >
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
           <p className="text-lg font-semibold bg-primary/10 p-3 rounded">
             We need your CONFIRMATION
           </p>
         </div>
         
-        <div className={`border border-2 rounded-lg p-6 space-y-6 ${textClasses}`}>
+        <div 
+          className={`border border-2 rounded-lg p-6 space-y-6 ${textClasses}`}
+          style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}
+        >
           <p>I hereby acknowledge and accept the offer mentioned above.</p>
           
           <div className="grid grid-cols-2 gap-8 pt-6">

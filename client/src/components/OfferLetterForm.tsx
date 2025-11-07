@@ -214,7 +214,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           compress: true
         },
         pagebreak: { 
-          mode: 'avoid-all'
+          mode: ['css', 'legacy'],
+          avoid: ['div', 'img']
         }
       };
 
