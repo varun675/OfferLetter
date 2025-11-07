@@ -196,16 +196,25 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       
       // Find all page divs with data-pdf-page attribute and constrain them for PDF
       const pages = scrollArea.querySelectorAll('[data-pdf-page]');
-      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string; marginTop: string }[] = [];
-      pages.forEach((page) => {
+      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string; marginTop: string; display: string }[] = [];
+      pages.forEach((page, index) => {
         const htmlPage = page as HTMLElement;
         originalPageStyles.push({
           width: htmlPage.style.width,
           boxSizing: htmlPage.style.boxSizing,
           padding: htmlPage.style.padding,
           minHeight: htmlPage.style.minHeight,
-          marginTop: htmlPage.style.marginTop
+          marginTop: htmlPage.style.marginTop,
+          display: htmlPage.style.display
         });
+        
+        // Hide pages beyond the 5th page (index 4) to prevent them from being rasterized
+        // This prevents empty 6th page from being included in the PDF
+        if (index > 4) {
+          htmlPage.style.display = 'none';
+          console.log(`Hiding page ${index + 1} from PDF generation`);
+        }
+        
         // Set pages to full A4 size (210mm x 297mm) with internal padding
         // We'll set html2pdf margins to 0 and handle margins as internal padding instead
         htmlPage.style.width = '210mm';
@@ -231,8 +240,14 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlTable.style.boxSizing = 'border-box';
       });
       
+      // Force layout flush to ensure display:none is applied before html2pdf captures DOM
+      // Double requestAnimationFrame ensures styles are fully committed
+      await new Promise(resolve => requestAnimationFrame(() => {
+        requestAnimationFrame(resolve);
+      }));
+      
       // Wait for layout to adjust
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await new Promise(resolve => setTimeout(resolve, 300));
       
       // Generate filename: EmployeeName_DateOfJoining.pdf
       const fileName = `${formData.employeeName.replace(/\s+/g, '_')}_${formData.dateOfJoining}.pdf`;
@@ -264,27 +279,10 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         }
       };
 
-      // Generate PDF and remove empty last page if it exists
-      const worker = html2pdf().set(options).from(scrollArea);
-      
-      // Get the PDF instance to check for and remove empty pages
-      const pdfDoc = await worker.toContainer().toCanvas().toPdf().get('pdf');
-      
-      // Check if the last page is empty and remove it
-      const totalPages = pdfDoc.internal.getNumberOfPages();
-      
-      // Check if last page is blank (contains only default operators, typically <= 2 commands)
-      if (totalPages > 5) {
-        const lastPageContent = pdfDoc.internal.pages[totalPages];
-        // If the page has minimal content (just default operators), it's likely empty
-        if (lastPageContent && lastPageContent.length <= 2) {
-          console.log(`Removing empty page ${totalPages}`);
-          pdfDoc.deletePage(totalPages);
-        }
-      }
-      
-      // Save the PDF
-      pdfDoc.save(fileName);
+      console.log('Starting PDF generation with first 5 pages only...');
+      // Generate PDF (pages beyond 5th are already hidden via display:none and flushed)
+      await html2pdf().set(options).from(scrollArea).save();
+      console.log('PDF generation complete');
       
       // Restore original scroll styles
       scrollArea.style.overflow = originalOverflow;
@@ -302,6 +300,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlPage.style.padding = originalPageStyles[index].padding;
         htmlPage.style.minHeight = originalPageStyles[index].minHeight;
         htmlPage.style.marginTop = originalPageStyles[index].marginTop;
+        htmlPage.style.display = originalPageStyles[index].display;
       });
       
       // Restore original table styles
