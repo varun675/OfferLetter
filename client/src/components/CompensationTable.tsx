@@ -61,9 +61,9 @@ export default function CompensationTable({
           <Table style={{ width: '100%', tableLayout: 'fixed' }}>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold text-xs sm:text-sm" style={{ width: '38%' }}>(i) Monthly Payments:</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '31%' }}>Per Month</TableHead>
-                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '31%' }}>Per Annum</TableHead>
+                <TableHead className="font-bold text-xs sm:text-sm" style={{ width: '32%' }}>(i) Monthly Payments:</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '34%' }}>Per Month</TableHead>
+                <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '34%' }}>Per Annum</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody className="text-xs sm:text-sm">
