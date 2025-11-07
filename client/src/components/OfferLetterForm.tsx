@@ -196,14 +196,15 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       
       // Find all page divs with data-pdf-page attribute and constrain them for PDF
       const pages = scrollArea.querySelectorAll('[data-pdf-page]');
-      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string }[] = [];
+      const originalPageStyles: { width: string; boxSizing: string; padding: string; minHeight: string; marginTop: string }[] = [];
       pages.forEach((page) => {
         const htmlPage = page as HTMLElement;
         originalPageStyles.push({
           width: htmlPage.style.width,
           boxSizing: htmlPage.style.boxSizing,
           padding: htmlPage.style.padding,
-          minHeight: htmlPage.style.minHeight
+          minHeight: htmlPage.style.minHeight,
+          marginTop: htmlPage.style.marginTop
         });
         // Set pages to full A4 size (210mm x 297mm) with internal padding
         // We'll set html2pdf margins to 0 and handle margins as internal padding instead
@@ -211,6 +212,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlPage.style.boxSizing = 'border-box';
         htmlPage.style.padding = '10mm'; // Internal padding instead of html2pdf margins
         htmlPage.style.minHeight = '297mm';
+        htmlPage.style.marginTop = '0'; // Remove space-y-4 gaps between pages during export
       });
       
       // Find all tables and set explicit widths for PDF generation
@@ -280,6 +282,7 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         htmlPage.style.boxSizing = originalPageStyles[index].boxSizing;
         htmlPage.style.padding = originalPageStyles[index].padding;
         htmlPage.style.minHeight = originalPageStyles[index].minHeight;
+        htmlPage.style.marginTop = originalPageStyles[index].marginTop;
       });
       
       // Restore original table styles
