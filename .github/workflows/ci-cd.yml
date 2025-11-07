@@ -3,8 +3,14 @@ name: CI/CD Pipeline
 on:
   push:
     branches: [main, master]
+    # Only run CI on pull requests that target main or master
   pull_request:
     branches: [main, master]
+    # Don't run on push events for these paths to avoid duplicate builds
+  paths-ignore:
+    - 'README.md'
+    - 'LICENSE'
+    - '.gitignore'
 
 jobs:
   build-and-deploy:
