@@ -31,6 +31,12 @@ jobs:
       - name: Run tests (if you have tests)
         run: npm test --if-present
         
+      - name: Create nojekyll file
+        if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
+        run: |
+          touch dist/public/.nojekyll
+          cp dist/public/index.html dist/public/404.html
+      
       - name: Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         uses: JamesIves/github-pages-deploy-action@v4
@@ -38,3 +44,8 @@ jobs:
           folder: dist/public
           branch: gh-pages
           clean: true
+          clean-exclude: |
+            _redirects
+            .nojekyll
+            404.html
+          single-commit: true
