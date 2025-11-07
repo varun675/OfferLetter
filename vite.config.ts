@@ -3,7 +3,9 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
+// Always use /OfferLetter/ as base path for production builds
 const isProd = process.env.NODE_ENV === 'production';
+const base = isProd ? '/OfferLetter/' : '/';
 
 export default defineConfig({
   base: isProd ? '/OfferLetter/' : '/',

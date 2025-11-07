@@ -15,6 +15,7 @@ function Router() {
     <WouterRouter base={BASE_PATH}>
       <Switch>
         <Route path="/" component={Home} />
+        {/* Add a catch-all route for 404 pages */}
         <Route component={NotFound} />
       </Switch>
     </WouterRouter>
