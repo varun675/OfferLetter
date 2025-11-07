@@ -285,8 +285,55 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         }
       };
 
-      console.log('Starting PDF generation...');
-      await html2pdf().set(options).from(scrollArea).save();
+      console.log('Starting PDF generation with per-page rendering...');
+      
+      // Import jsPDF and html2canvas directly for manual page control
+      const { jsPDF } = await import('jspdf');
+      const html2canvas = (await import('html2canvas')).default;
+      
+      // Create jsPDF instance
+      const pdf = new jsPDF({
+        unit: 'mm',
+        format: 'a4',
+        orientation: 'portrait',
+        compress: true
+      });
+      
+      let isFirstPage = true;
+      
+      // Render each page individually
+      for (let i = 0; i < pages.length; i++) {
+        const pageElement = pages[i] as HTMLElement;
+        console.log(`Rendering page ${i + 1}...`);
+        
+        // Render this page to canvas
+        const canvas = await html2canvas(pageElement, {
+          scale: 2,
+          useCORS: true,
+          logging: false,
+          windowHeight: pageElement.scrollHeight,
+          windowWidth: pageElement.scrollWidth
+        });
+        
+        // Convert canvas to image
+        const imgData = canvas.toDataURL('image/jpeg', 0.98);
+        
+        // Add new page if not first
+        if (!isFirstPage) {
+          pdf.addPage();
+        }
+        isFirstPage = false;
+        
+        // Add image to PDF (full page, no margins - we handle margins internally)
+        pdf.addImage(imgData, 'JPEG', 0, 0, 210, 297);
+        
+        console.log(`Page ${i + 1} added to PDF`);
+      }
+      
+      console.log(`Total pages in PDF: ${pdf.getNumberOfPages()}`);
+      
+      // Save the PDF
+      pdf.save(fileName);
       console.log('PDF generation complete');
       
       // Restore original scroll styles
