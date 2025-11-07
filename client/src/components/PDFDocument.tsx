@@ -64,7 +64,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
   return (
     <div className={containerClasses}>
       {/* Page 1 - Cover Page with Logo at Top Center */}
-      <div className="bg-white overflow-hidden" style={pageStyle}>
+      <div className="bg-white overflow-hidden" style={pageStyle} data-pdf-page>
         <div className="flex justify-center pt-8 pb-4">
           <img 
             src={displayLogo} 
@@ -83,7 +83,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 2 - Offer Details + Terms */}
-      <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle}>
+      <div className={`${pageClasses} ${spacingClasses}`} style={pageStyle} data-pdf-page>
         <div className="mb-6">
           <img 
             src={displayLogo} 
@@ -161,7 +161,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
       </div>
 
       {/* Page 3 - Documents, Closing & Annexure */}
-      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle}>
+      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle} data-pdf-page>
         <div className="mb-6">
           <img 
             src={displayLogo} 
@@ -254,6 +254,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           pageBreakInside: 'avoid',
           breakInside: 'avoid',
         }}
+        data-pdf-page
       >
         <div className="mb-4" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
           <img 

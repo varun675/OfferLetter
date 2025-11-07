@@ -194,6 +194,22 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.width = '190mm';
       scrollArea.style.padding = '0';
       
+      // Find all page divs with data-pdf-page attribute and constrain them for PDF
+      const pages = scrollArea.querySelectorAll('[data-pdf-page]');
+      const originalPageStyles: { width: string; boxSizing: string; padding: string }[] = [];
+      pages.forEach((page) => {
+        const htmlPage = page as HTMLElement;
+        originalPageStyles.push({
+          width: htmlPage.style.width,
+          boxSizing: htmlPage.style.boxSizing,
+          padding: htmlPage.style.padding
+        });
+        // Force pages to exactly 190mm with zero padding
+        htmlPage.style.width = '190mm';
+        htmlPage.style.boxSizing = 'border-box';
+        htmlPage.style.padding = '0';
+      });
+      
       // Find all tables and set explicit widths for PDF generation
       const tables = scrollArea.querySelectorAll('table');
       const originalTableStyles: { width: string; tableLayout: string; boxSizing: string }[] = [];
@@ -204,8 +220,8 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
           tableLayout: htmlTable.style.tableLayout,
           boxSizing: htmlTable.style.boxSizing
         });
-        // Table width: 180mm (leaves 5mm padding on each side within 190mm container)
-        htmlTable.style.width = '180mm';
+        // Table width: use full available width
+        htmlTable.style.width = '100%';
         htmlTable.style.tableLayout = 'fixed';
         htmlTable.style.boxSizing = 'border-box';
       });
@@ -252,6 +268,14 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
       scrollArea.style.width = originalWidth;
       scrollArea.style.boxSizing = originalBoxSizing;
       scrollArea.style.padding = originalPadding;
+      
+      // Restore original page styles
+      pages.forEach((page, index) => {
+        const htmlPage = page as HTMLElement;
+        htmlPage.style.width = originalPageStyles[index].width;
+        htmlPage.style.boxSizing = originalPageStyles[index].boxSizing;
+        htmlPage.style.padding = originalPageStyles[index].padding;
+      });
       
       // Restore original table styles
       tables.forEach((table, index) => {
