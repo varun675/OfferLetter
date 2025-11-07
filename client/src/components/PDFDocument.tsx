@@ -222,8 +222,20 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           annualCTC={data.annualCTC}
           testIdSuffix={testIdSuffix}
         />
+      </div>
+
+      {/* Page 4 - DNA Values */}
+      <div className={`${pageClasses} ${spacingSmallClasses} ${textClasses}`} style={pageStyle} data-pdf-page>
+        <div className="mb-6">
+          <img 
+            src={displayLogo} 
+            alt="Codesmotech" 
+            className="h-10"
+            style={{ imageRendering: 'crisp-edges' }}
+          />
+        </div>
         
-        <div className={`mt-8 space-y-4 ${textClasses}`}>
+        <div className="space-y-4">
           <p>
             Your individual performance and community outreach will be evaluated across four 
             key areas that are part of our Company's DNA:
@@ -244,19 +256,13 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
         </div>
       </div>
 
-      {/* Page 5 - Acceptance (forced to new page) */}
+      {/* Page 5 - Acceptance */}
       <div 
-        className={`${pageClasses} ${spacingClasses}`} 
-        style={{
-          ...pageStyle,
-          pageBreakBefore: 'always',
-          breakBefore: 'page',
-          pageBreakInside: 'avoid',
-          breakInside: 'avoid',
-        }}
+        className="bg-white p-6 space-y-4" 
+        style={pageStyle}
         data-pdf-page
       >
-        <div className="mb-4" style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}>
+        <div className="mb-3">
           <img 
             src={displayLogo} 
             alt="Codesmotech" 
@@ -265,23 +271,17 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           />
         </div>
         
-        <div 
-          className="text-center space-y-3 py-4"
-          style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}
-        >
+        <div className="text-center space-y-2 py-3">
           <h3 className={`${headingClasses} font-bold`}>TO BE FILLED BY THE CONSULTANT</h3>
           <p className="text-lg font-semibold bg-primary/10 p-3 rounded">
             We need your CONFIRMATION
           </p>
         </div>
         
-        <div 
-          className={`border border-2 rounded-lg p-6 space-y-6 ${textClasses}`}
-          style={{ pageBreakInside: 'avoid', breakInside: 'avoid' }}
-        >
+        <div className="border rounded-lg p-5 space-y-5 text-sm">
           <p>I hereby acknowledge and accept the offer mentioned above.</p>
           
-          <div className="grid grid-cols-2 gap-8 pt-6">
+          <div className="grid grid-cols-2 gap-6 pt-4">
             <div className="space-y-2">
               <p className="text-sm text-muted-foreground">Signature</p>
               <Separator className="border-t border-t-2" />
@@ -293,7 +293,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
             </div>
           </div>
           
-          <div className="space-y-2 pt-3">
+          <div className="space-y-2 pt-2">
             <p className="text-sm text-muted-foreground">Name:</p>
             <Separator className="border-t border-t-2" />
           </div>
