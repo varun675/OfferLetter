@@ -30,6 +30,15 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        assetFileNames: (assetInfo) => {
+          // Keep _redirects as is in the root
+          if (assetInfo.name === '_redirects') return '[name][extname]';
+          return 'assets/[name]-[hash][extname]';
+        }
+      }
+    }
   },
   server: {
     fs: {
