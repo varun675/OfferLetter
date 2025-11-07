@@ -264,8 +264,27 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         }
       };
 
-      // Generate and download PDF (capture the scrollArea itself)
-      await html2pdf().set(options).from(scrollArea).save();
+      // Generate PDF and remove empty last page if it exists
+      const worker = html2pdf().set(options).from(scrollArea);
+      
+      // Get the PDF instance to check for and remove empty pages
+      const pdfDoc = await worker.toContainer().toCanvas().toPdf().get('pdf');
+      
+      // Check if the last page is empty and remove it
+      const totalPages = pdfDoc.internal.getNumberOfPages();
+      
+      // Check if last page is blank (contains only default operators, typically <= 2 commands)
+      if (totalPages > 5) {
+        const lastPageContent = pdfDoc.internal.pages[totalPages];
+        // If the page has minimal content (just default operators), it's likely empty
+        if (lastPageContent && lastPageContent.length <= 2) {
+          console.log(`Removing empty page ${totalPages}`);
+          pdfDoc.deletePage(totalPages);
+        }
+      }
+      
+      // Save the PDF
+      pdfDoc.save(fileName);
       
       // Restore original scroll styles
       scrollArea.style.overflow = originalOverflow;
