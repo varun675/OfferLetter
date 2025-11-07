@@ -310,9 +310,10 @@ export default function OfferLetterForm({ onGenerate }: OfferLetterFormProps) {
         const canvas = await html2canvas(pageElement, {
           scale: 2,
           useCORS: true,
+          allowTaint: true,
           logging: false,
-          windowHeight: pageElement.scrollHeight,
-          windowWidth: pageElement.scrollWidth
+          scrollY: -window.scrollY,
+          scrollX: -window.scrollX
         });
         
         // Convert canvas to image
