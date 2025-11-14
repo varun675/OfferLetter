@@ -97,7 +97,7 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           <p><strong>To: {data.salutation} {data.employeeName || "________"}</strong></p>
           <p>{today}</p>
           <p><strong>Dear {data.employeeName ? data.employeeName.split(' ')[0] : "________"},</strong></p>
-          <p>Congratulations!</p>
+          <p>Congratulations !</p>
           
           <p>
             On behalf of Codesmotech Technology Consulting Private Limited ("Company"), 
@@ -181,14 +181,32 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           the following documents for verification/submission:
         </p>
         
-        <ol className="list-decimal pl-8 space-y-1 mb-4" style={{ paddingLeft: '2rem' }}>
-          <li className="pl-2">Educational certificates and mark sheets</li>
-          <li className="pl-2">Relieving letter and experience certificate from previous employer(s)</li>
-          <li className="pl-2">Salary certificate from previous employer</li>
-          <li className="pl-2">Passport</li>
-          <li className="pl-2">Three passport-size and one stamp-size colored photographs</li>
-          <li className="pl-2">A cancelled cheque of your active bank account</li>
-        </ol>
+        <div className="mb-6 space-y-2">
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">1.</span>
+            <span>Educational certificates and mark sheets</span>
+          </div>
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">2.</span>
+            <span>Relieving letter and experience certificate from previous employer(s)</span>
+          </div>
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">3.</span>
+            <span>Salary certificate from previous employer</span>
+          </div>
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">4.</span>
+            <span>Passport</span>
+          </div>
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">5.</span>
+            <span>Three passport-size and one stamp-size colored photographs</span>
+          </div>
+          <div className="flex">
+            <span className="w-6 flex-shrink-0">6.</span>
+            <span>A cancelled cheque of your active bank account</span>
+          </div>
+        </div>
         
         <p>Wish you all the best!</p>
         
@@ -241,12 +259,24 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
             key areas that are part of our Company's DNA:
           </p>
           
-          <ul className="list-disc ml-6 space-y-1">
-            <li>Client Intimacy</li>
-            <li>Knowledge Sharing and Thought Leadership</li>
-            <li>Quality Without Compromise</li>
-            <li>People First</li>
-          </ul>
+          <div className="mb-6 space-y-2">
+            <div className="flex">
+              <span className="w-6 flex-shrink-0">•</span>
+              <span>Client Intimacy</span>
+            </div>
+            <div className="flex">
+              <span className="w-6 flex-shrink-0">•</span>
+              <span>Knowledge Sharing and Thought Leadership</span>
+            </div>
+            <div className="flex">
+              <span className="w-6 flex-shrink-0">•</span>
+              <span>Quality Without Compromise</span>
+            </div>
+            <div className="flex">
+              <span className="w-6 flex-shrink-0">•</span>
+              <span>People First</span>
+            </div>
+          </div>
           
           <p>
             Our induction program will brief you on our core values and the DNA components 
@@ -283,18 +313,18 @@ export default function PDFDocument({ data, testIdSuffix = "", isPrintMode = fal
           
           <div className="grid grid-cols-2 gap-6 pt-4">
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Signature</p>
+              <p className="text-sm text-muted-foreground">Signature :</p>
               <Separator className="border-t border-t-2" />
             </div>
             
             <div className="space-y-2">
-              <p className="text-sm text-muted-foreground">Date</p>
+              <p className="text-sm text-muted-foreground">Date :</p>
               <Separator className="border-t border-t-2" />
             </div>
           </div>
           
           <div className="space-y-2 pt-2">
-            <p className="text-sm text-muted-foreground">Name:</p>
+            <p className="text-sm text-muted-foreground">Name :</p>
             <Separator className="border-t border-t-2" />
           </div>
         </div>
