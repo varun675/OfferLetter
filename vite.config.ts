@@ -1,12 +1,7 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
-
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-overlay";
+ 
 
 // Base path for GitHub Pages
 export default defineConfig(({ mode }) => {
@@ -16,17 +11,12 @@ export default defineConfig(({ mode }) => {
   return {
     base,
     plugins: [
-      react(),
-      runtimeErrorOverlay(),
-      ...(process.env.NODE_ENV !== "production" && process.env.REPL_ID ? [
-        require("@replit/vite-plugin-cartographer").default(),
-        require("@replit/vite-plugin-dev-banner").default()
-      ] : [])
+      react()
     ],
     root: "client",
     publicDir: "public",
     build: {
-      outDir: "../dist",
+      outDir: "../dist/public",
       emptyOutDir: true,
       rollupOptions: {
         input: path.resolve(__dirname, "client/index.html"),

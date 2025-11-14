@@ -42,14 +42,11 @@ jobs:
           cd client
           npm run build
           
-          # Create the output directory structure
-          echo "Setting up output directory..."
+          # Return to repo root
           cd ..
-          mkdir -p dist/public
           
-          # Move client build output to dist/public
-          echo "Moving build output to dist/public/..."
-          mv client/dist/* dist/public/
+          # Ensure output directory exists (Vite already outputs to dist/public)
+          mkdir -p dist/public
           
           # Create .nojekyll and 404.html for SPA routing
           echo "Creating .nojekyll and 404.html..."
