@@ -3,6 +3,11 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
+import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-overlay";
+
 // Base path for GitHub Pages
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
@@ -18,13 +23,13 @@ export default defineConfig(({ mode }) => {
         require("@replit/vite-plugin-dev-banner").default()
       ] : [])
     ],
-    root: "./client",
-    publicDir: "./public",
+    root: "client",
+    publicDir: "public",
     build: {
       outDir: "../dist",
       emptyOutDir: true,
       rollupOptions: {
-        input: "./index.html",
+        input: path.resolve(__dirname, "client/index.html"),
         output: {
           assetFileNames: (assetInfo) => {
             let extType = assetInfo.name?.split('.').at(1) || '';
@@ -39,11 +44,11 @@ export default defineConfig(({ mode }) => {
       }
     },
     resolve: {
-      alias: [
-        { find: '@', replacement: path.resolve(__dirname, './client/src') },
-        { find: '@shared', replacement: path.resolve(__dirname, './shared') },
-        { find: '@assets', replacement: path.resolve(__dirname, './attached_assets') },
-      ]
+      alias: {
+        "@": path.resolve(__dirname, "client/src"),
+        "@shared": path.resolve(__dirname, "shared"),
+        "@assets": path.resolve(__dirname, "attached_assets"),
+      }
     },
     server: {
       fs: {
