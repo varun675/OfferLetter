@@ -5,28 +5,31 @@
     <title>Redirecting...</title>
     <script>
       // Single Page Apps for GitHub Pages
+      // Get the base path - for OfferLetter it's /OfferLetter/
+      var base = window.location.pathname.split('/OfferLetter/')[0] + '/OfferLetter/';
+      if (!base.includes('/OfferLetter/')) {
+        base = '/OfferLetter/';
+      }
+      
       (function() {
         var redirect = sessionStorage.redirect;
         delete sessionStorage.redirect;
         if (redirect && redirect != location.href) {
           history.replaceState(null, null, redirect);
-        } else {
-          var path = location.pathname;
-          if (path.endsWith('/')) path = path.slice(0, -1);
-          if (path.endsWith('.html')) {
-            path = path.slice(0, -5);
-            history.replaceState(null, null, path);
-          }
         }
       })();
     </script>
     <script>
-      // Redirect to the main page
-      window.location.href = '/index.html';
+      // Redirect to the main app - use base path
+      var base = window.location.pathname.split('/OfferLetter/')[0] + '/OfferLetter/';
+      if (!base.includes('/OfferLetter/')) {
+        base = '/OfferLetter/';
+      }
+      window.location.href = base + 'index.html';
     </script>
   </head>
   <body>
     <h1>Redirecting...</h1>
-    <p>If you are not redirected automatically, <a href="/">click here</a>.</p>
+    <p>If you are not redirected automatically, <a href="/OfferLetter/">click here</a>.</p>
   </body>
 </html>
