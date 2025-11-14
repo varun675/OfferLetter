@@ -30,7 +30,8 @@ jobs:
           # Install client dependencies
           cd client
           npm ci
-          
+          cd ..
+      
       - name: Build application
         run: |
           # Create output directory
@@ -40,15 +41,25 @@ jobs:
           npm run build
           
           # Verify build output
+          echo "Build output in dist/public/:"
           ls -la dist/public/
           
           # Create .nojekyll and 404.html for SPA routing
           touch dist/public/.nojekyll
           cp dist/public/index.html dist/public/404.html
           
-          # List files for debugging
-          echo "Build output:"
-          find dist/public -type f | sort
+          # List all files for debugging
+          echo "\nAll files in dist/:"
+          find dist -type f | sort
+          
+          # Verify the artifact directory structure
+          echo "\nArtifact directory structure:"
+          tree dist/public/ || echo "tree command not available"
+          
+          # Check if the required files exist
+          [ -f "dist/public/index.html" ] && echo "\n✅ index.html exists" || echo "\n❌ index.html is missing"
+          [ -f "dist/public/404.html" ] && echo "✅ 404.html exists" || echo "❌ 404.html is missing"
+          [ -f "dist/public/.nojekyll" ] && echo "✅ .nojekyll exists" || echo "❌ .nojekyll is missing"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
