@@ -3,52 +3,48 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Use repository name as base path for GitHub Pages
-const isProd = process.env.NODE_ENV === 'production';
-const base = isProd ? '/OfferLetter/' : '/';
-
-export default defineConfig({
-  base: process.env.GITHUB_PAGES ? '/OfferLetter/' : '/',
-  plugins: [
-    react(),
-    runtimeErrorOverlay(),
-    ...(process.env.NODE_ENV !== "production" &&
-    process.env.REPL_ID !== undefined
-      ? [
-          await import("@replit/vite-plugin-cartographer").then((m) =>
-            m.cartographer(),
-          ),
-          await import("@replit/vite-plugin-dev-banner").then((m) =>
-            m.devBanner(),
-          ),
-        ]
-      : []),
-  ],
-  resolve: {
-    alias: {
-      "@": path.resolve(import.meta.dirname, "client", "src"),
-      "@shared": path.resolve(import.meta.dirname, "shared"),
-      "@assets": path.resolve(import.meta.dirname, "attached_assets"),
+// Base path for GitHub Pages
+export default defineConfig(({ mode }) => {
+  const isProduction = mode === 'production';
+  const base = isProduction ? '/OfferLetter/' : '/';
+  
+  return {
+    base,
+    plugins: [
+      react(),
+      runtimeErrorOverlay(),
+      ...(process.env.NODE_ENV !== "production" && process.env.REPL_ID ? [
+        require("@replit/vite-plugin-cartographer").default(),
+        require("@replit/vite-plugin-dev-banner").default()
+      ] : [])
+    ],
+    resolve: {
+      alias: {
+        "@": path.resolve("client/src"),
+        "@shared": path.resolve("shared"),
+        "@assets": path.resolve("attached_assets"),
+      },
     },
-  },
-  root: path.resolve(import.meta.dirname, "client"),
-  build: {
-    outDir: path.resolve(import.meta.dirname, "dist/public"),
-    emptyOutDir: true,
-    rollupOptions: {
-      output: {
-        assetFileNames: (assetInfo) => {
-          // Keep _redirects as is in the root
-          if (assetInfo.name === '_redirects') return '[name][extname]';
-          return 'assets/[name]-[hash][extname]';
+    root: "client",
+    build: {
+      outDir: "dist/public",
+      emptyOutDir: true,
+      rollupOptions: {
+        output: {
+          assetFileNames: (assetInfo) => {
+            let extType = assetInfo.name?.split('.').at(1) || '';
+            if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(extType)) {
+              extType = 'img';
+            }
+            return `assets/${extType}/[name]-[hash][extname]`;
+          }
         }
       }
-    }
-  },
-  server: {
-    fs: {
-      strict: true,
-      deny: ["**/.*"],
     },
-  },
+    server: {
+      fs: {
+        strict: true,
+      },
+    },
+  };
 });

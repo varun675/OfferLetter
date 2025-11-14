@@ -27,25 +27,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
         
-      - name: Build application
-        env:
-          GITHUB_PAGES: true
+      - name: Install dependencies
         run: |
+          # Install root dependencies
+          npm ci
+          
           # Install client dependencies
           cd client
           npm ci
-          
-          # Build client
-          npm run build
-          
-          # Move back to root
           cd ..
-          
-          # Create necessary directories
-          mkdir -p dist/public
-          
-          # Copy client build output
-          cp -r client/dist/* dist/public/
+      
+      - name: Build application
+        run: |
+          # Build the application
+          npm run build
           
           # Create .nojekyll and 404.html for SPA routing
           touch dist/public/.nojekyll
