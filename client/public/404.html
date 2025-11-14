@@ -20,8 +20,11 @@
       var isDirtyPath = path !== '/' && !path.endsWith('.html') && !path.includes('.');
       
       if (isDirtyPath && path.includes('/OfferLetter/')) {
-        // Extract the path after /OfferLetter/
-        var cleanPath = path.replace('/OfferLetter', '');
+        // Extract the path after /OfferLetter/ and ensure single slash
+        var cleanPath = path.replace('/OfferLetter/', '');
+        if (cleanPath && !cleanPath.startsWith('/')) {
+          cleanPath = '/' + cleanPath;
+        }
         sessionStorage.redirect = '/OfferLetter' + cleanPath;
         window.location.href = '/OfferLetter/';
       }
