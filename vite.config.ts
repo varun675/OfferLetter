@@ -19,12 +19,12 @@ export default defineConfig(({ mode }) => {
       ] : [])
     ],
     root: "./client",
-    publicDir: "./client/public",
+    publicDir: "./public",
     build: {
-      outDir: "../dist/public",
+      outDir: "../dist",
       emptyOutDir: true,
       rollupOptions: {
-        input: "./client/index.html",
+        input: "./index.html",
         output: {
           assetFileNames: (assetInfo) => {
             let extType = assetInfo.name?.split('.').at(1) || '';
@@ -40,9 +40,9 @@ export default defineConfig(({ mode }) => {
     },
     resolve: {
       alias: [
-        { find: '@', replacement: path.resolve(__dirname, 'client/src') },
-        { find: '@shared', replacement: path.resolve(__dirname, 'shared') },
-        { find: '@assets', replacement: path.resolve(__dirname, 'attached_assets') },
+        { find: '@', replacement: path.resolve(__dirname, './client/src') },
+        { find: '@shared', replacement: path.resolve(__dirname, './shared') },
+        { find: '@assets', replacement: path.resolve(__dirname, './attached_assets') },
       ]
     },
     server: {

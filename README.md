@@ -2,6 +2,8 @@
 
 A professional web application for generating customized offer letters with Codesmotech branding.
 
+> Last updated: 2025-11-14 16:50 IST
+
 ## ✨ Features
 
 - **Smart Form Interface**: Collect employee details with automatic salary breakdown calculation
