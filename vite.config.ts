@@ -5,8 +5,8 @@ import path from "path";
 
 // Base path for GitHub Pages
 export default defineConfig(({ mode }) => {
-  const isProduction = mode === 'production';
-  const base = isProduction ? '/OfferLetter/' : '/';
+  // Always use /OfferLetter/ as base path for GitHub Pages
+  const base = '/OfferLetter/';
   
   return {
     base,
