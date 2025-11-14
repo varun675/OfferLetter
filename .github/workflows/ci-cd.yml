@@ -49,6 +49,9 @@ jobs:
           folder: dist/public
           branch: gh-pages
           clean: true
+          force: true
+          target-folder: .
+          clean: true
           clean-exclude: |
             _redirects
             .nojekyll
