@@ -3,12 +3,12 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Always use /OfferLetter/ as base path for production builds
+// Use repository name as base path for GitHub Pages
 const isProd = process.env.NODE_ENV === 'production';
 const base = isProd ? '/OfferLetter/' : '/';
 
 export default defineConfig({
-  base: isProd ? '/OfferLetter/' : '/',
+  base: process.env.GITHUB_PAGES ? '/OfferLetter/' : '/',
   plugins: [
     react(),
     runtimeErrorOverlay(),
