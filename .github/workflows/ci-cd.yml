@@ -31,9 +31,23 @@ jobs:
         env:
           GITHUB_PAGES: true
         run: |
+          # Install client dependencies
+          cd client
+          npm ci
+          
+          # Build client
           npm run build
+          
+          # Move back to root
+          cd ..
+          
+          # Create necessary directories
           mkdir -p dist/public
-          cp -r dist/client/* dist/public/
+          
+          # Copy client build output
+          cp -r client/dist/* dist/public/
+          
+          # Create .nojekyll and 404.html for SPA routing
           touch dist/public/.nojekyll
           cp dist/public/index.html dist/public/404.html
       
