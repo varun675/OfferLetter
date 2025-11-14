@@ -37,13 +37,9 @@ jobs:
           # Clean up previous builds
           rm -rf dist/ client/dist/
           
-          # Build the client application
-          echo "Building the client application..."
-          cd client
-          npm run build
-          
-          # Return to repo root
-          cd ..
+          # Build the client application from repo root (uses vite.config.ts)
+          echo "Building the client application from repo root..."
+          npm run build:client
           
           # Ensure output directory exists (Vite already outputs to dist/public)
           mkdir -p dist/public
