@@ -3,8 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main, master]
-  pull_request:
-    branches: [main, master]
   workflow_dispatch:
 
 jobs:
@@ -25,9 +23,6 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: npm ci
-        
-      - name: Install dependencies
         run: |
           # Install root dependencies
           npm ci
@@ -35,16 +30,25 @@ jobs:
           # Install client dependencies
           cd client
           npm ci
-          cd ..
-      
+          
       - name: Build application
         run: |
+          # Create output directory
+          mkdir -p dist/public
+          
           # Build the application
           npm run build
+          
+          # Verify build output
+          ls -la dist/public/
           
           # Create .nojekyll and 404.html for SPA routing
           touch dist/public/.nojekyll
           cp dist/public/index.html dist/public/404.html
+          
+          # List files for debugging
+          echo "Build output:"
+          find dist/public -type f | sort
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
@@ -60,6 +64,7 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build-and-deploy
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
