@@ -4,15 +4,27 @@
     <meta charset="utf-8">
     <title>Redirecting...</title>
     <script>
-      // GitHub Pages SPA redirect
-      // This file handles 404 errors by redirecting to index.html
-      var segment = 0;
-      var segments = location.pathname.split('/').filter(function(el) {return el.length > 0;});
-      var l = '/';
-      if (segments[0] === 'OfferLetter' || segments[0] === 'offer-letter') {
-        l = '/OfferLetter/';
+      // GitHub Pages SPA Redirect
+      // Save the current path for the SPA router
+      (function () {
+        var redirect = sessionStorage.redirect;
+        delete sessionStorage.redirect;
+        if (redirect && redirect !== location.href) {
+          history.replaceState(null, null, redirect);
+          return;
+        }
+      })();
+
+      // For routes like /login, /about, etc., save them and redirect to root
+      var path = location.pathname;
+      var isDirtyPath = path !== '/' && !path.endsWith('.html') && !path.includes('.');
+      
+      if (isDirtyPath && path.includes('/OfferLetter/')) {
+        // Extract the path after /OfferLetter/
+        var cleanPath = path.replace('/OfferLetter', '');
+        sessionStorage.redirect = '/OfferLetter' + cleanPath;
+        window.location.href = '/OfferLetter/';
       }
-      sessionStorage.redirect = l;
     </script>
     <meta http-equiv="refresh" content="0;URL='/OfferLetter/'">
   </head>
