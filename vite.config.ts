@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
       react()
     ],
     root: "client",
-    publicDir: "public",
+    publicDir: "../client/public",
     build: {
       outDir: "../dist/public",
       emptyOutDir: true,

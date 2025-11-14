@@ -23,27 +23,20 @@ jobs:
           cache: 'npm'
       
       - name: Install dependencies
-        run: |
-          # Install root dependencies
-          npm ci
-          
-          # Install client dependencies
-          cd client
-          npm ci
-          cd ..
+        run: npm ci
       
       - name: Build application
         run: |
           # Clean up previous builds
           rm -rf dist/ client/dist/
           
-          # Build the client application from the client directory
+          # Build the client application using vite from root
           echo "Building the client application..."
-          cd client
-          npm run build
+          npx vite build --base=/OfferLetter/
           
-          # Move back to the root directory
-          cd ..
+          # Verify the build output
+          echo "Build output in dist/public/:"
+          ls -la dist/public/ || echo "dist/public/ not found"
           
           # Verify the build output
           echo "Build output in dist/public/:"
