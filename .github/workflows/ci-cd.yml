@@ -49,10 +49,15 @@ jobs:
           echo "Build output in dist/public/:"
           ls -la dist/public/ || echo "dist/public/ not found"
           
-          # Create .nojekyll and 404.html
-          echo "Creating .nojekyll and 404.html..."
+          # Create .nojekyll and copy 404.html
+          echo "Setting up SPA routing..."
           touch dist/public/.nojekyll
-          cp dist/public/index.html dist/public/404.html
+          
+          # Copy the custom 404.html from public directory
+          cp public/404.html dist/public/404.html
+          
+          # Also ensure index.html is available as a fallback
+          cp dist/public/index.html dist/public/404.html.bak
           
           # Verify the files were created
           echo "Verifying required files exist:"
