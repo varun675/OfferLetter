@@ -12,6 +12,8 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 // Get the base path from Vite's import.meta.env.BASE_URL
 const BASE_PATH = import.meta.env.BASE_URL || '/';
 
+console.log('App BASE_PATH:', BASE_PATH);
+
 // Custom router that handles the base path
 function Router() {
   return (

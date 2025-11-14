@@ -5,8 +5,9 @@ import path from "path";
 
 // Base path for GitHub Pages
 export default defineConfig(({ mode }) => {
-  // Always use /OfferLetter/ as base path for GitHub Pages
-  const base = '/OfferLetter/';
+  // For GitHub Pages with repo name 'OfferLetter'
+  const isProduction = mode === 'production';
+  const base = isProduction ? '/OfferLetter/' : '/';
   
   return {
     base,
@@ -14,10 +15,11 @@ export default defineConfig(({ mode }) => {
       react()
     ],
     root: "client",
-    publicDir: "../client/public",
+    publicDir: "public",  // Relative to root directory
     build: {
       outDir: "../dist/public",
       emptyOutDir: true,
+      sourcemap: false,
       rollupOptions: {
         input: path.resolve(__dirname, "client/index.html"),
         output: {
@@ -42,7 +44,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       fs: {
-        strict: true,
+        strict: false,  // Allow serving from outside root
       },
     },
   };

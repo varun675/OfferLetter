@@ -2,19 +2,24 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-      pages: write
-      id-token: write  # Required for OIDC token exchange
-    
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
       
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,65 +30,51 @@ jobs:
       - name: Install dependencies
         run: npm ci
       
-      - name: Build application
+      - name: Build
         run: |
-          # Clean up previous builds
-          rm -rf dist/ client/dist/
-          
-          # Build the client application using vite from root
-          echo "Building the client application..."
-          npx vite build --base=/OfferLetter/
-          
-          # Verify the build output
-          echo "Build output in dist/public/:"
-          ls -la dist/public/ || echo "dist/public/ not found"
-          
-          # Verify the build output
-          echo "Build output in dist/public/:"
-          ls -la dist/public/ || echo "dist/public/ not found"
-          
-          # Create .nojekyll and copy public assets
-          echo "Setting up SPA routing and copying assets..."
-          touch dist/public/.nojekyll
-          
-          # Copy favicon and other public assets from client/public
-          cp -r client/public/* dist/public/ 2>/dev/null || true
-          
-          # Ensure 404.html exists for SPA routing
-          if [ ! -f "dist/public/404.html" ]; then
-            cp dist/public/index.html dist/public/404.html
-          fi
-          
-          # Verify the files were created
-          echo "Verifying required files exist:"
-          [ -f "dist/public/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html is missing"
-          [ -f "dist/public/404.html" ] && echo "✅ 404.html exists" || echo "❌ 404.html is missing"
-          [ -f "dist/public/.nojekyll" ] && echo "✅ .nojekyll exists" || echo "❌ .nojekyll is missing"
-          [ -f "dist/public/favicon.png" ] && echo "✅ favicon.png exists" || echo "❌ favicon.png is missing"
-          
-          # List all files for debugging
-          echo "All files in dist/public/:"
-          find dist/public -type f | head -20
+          npm run build:client
+      
+      - name: Create .nojekyll for SPA routing
+        run: touch dist/public/.nojekyll
+      
+      - name: Create 404.html for SPA routing
+        run: |
+          cat > dist/public/404.html << 'EOF'
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <meta charset="utf-8">
+              <title>Redirecting...</title>
+              <script>
+                var segment = 0;
+                var segments = location.pathname.split('/').filter(function(el) {return el.length > 0;});
+                var l = '/';
+                if (segments[0] === 'OfferLetter' || segments[0] === 'offer-letter') {
+                  l = '/OfferLetter/';
+                }
+                sessionStorage.redirect = l;
+              </script>
+              <meta http-equiv="refresh" content="0;URL='/OfferLetter/'">
+            </head>
+            <body>
+            </body>
+          </html>
+          EOF
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
-        
+      
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/public/'
-          
+          path: './dist/public'
+
   deploy:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build-and-deploy
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
+    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
