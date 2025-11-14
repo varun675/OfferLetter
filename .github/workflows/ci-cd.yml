@@ -37,23 +37,25 @@ jobs:
           # Clean up previous builds
           rm -rf dist/ client/dist/
           
-          # Build the client application from repo root (uses vite.config.ts)
-          echo "Building the client application from repo root..."
-          npm run build:client
+          # Build the client application from the client directory
+          echo "Building the client application..."
+          cd client
+          npm run build
           
-          # Ensure output directory exists (Vite already outputs to dist/public)
-          mkdir -p dist/public
+          # Move back to the root directory
+          cd ..
           
-          # Create .nojekyll and 404.html for SPA routing
+          # Verify the build output
+          echo "Build output in dist/public/:"
+          ls -la dist/public/ || echo "dist/public/ not found"
+          
+          # Create .nojekyll and 404.html
           echo "Creating .nojekyll and 404.html..."
           touch dist/public/.nojekyll
           cp dist/public/index.html dist/public/404.html
           
           # Verify the files were created
-          echo "Verifying required files in dist/public/:"
-          ls -la dist/public/
-          
-          echo "\nVerifying required files exist:"
+          echo "Verifying required files exist:"
           [ -f "dist/public/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html is missing"
           [ -f "dist/public/404.html" ] && echo "✅ 404.html exists" || echo "❌ 404.html is missing"
           [ -f "dist/public/.nojekyll" ] && echo "✅ .nojekyll exists" || echo "❌ .nojekyll is missing"
@@ -61,14 +63,6 @@ jobs:
           # List all files for debugging
           echo "\nAll files in dist/public/:"
           find dist/public -type f | sort
-          
-          # List all files for debugging
-          echo "\nAll files in dist/:"
-          find dist -type f | sort || echo "No files found in dist/"
-          
-          # Check the actual directory structure
-          echo "\nDirectory structure:"
-          ls -R dist/ || echo "Failed to list directory structure"
       
       - name: Setup Pages
         uses: actions/configure-pages@v4
