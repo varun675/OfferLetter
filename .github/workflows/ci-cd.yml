@@ -35,29 +35,39 @@ jobs:
       - name: Build application
         run: |
           # Clean up previous builds
-          rm -rf dist/
+          rm -rf dist/ client/dist/
           
-          # Create necessary directories
-          mkdir -p dist/public
-          
-          # Build the application
-          echo "Building the application..."
+          # Build the client application
+          echo "Building the client application..."
+          cd client
           npm run build
           
-          # Verify build output
-          echo "\nBuild output in dist/public/:"
-          ls -la dist/public/ || echo "dist/public/ not found!"
+          # Create the output directory structure
+          echo "Setting up output directory..."
+          cd ..
+          mkdir -p dist/public
+          
+          # Move client build output to dist/public
+          echo "Moving build output to dist/public/..."
+          mv client/dist/* dist/public/
           
           # Create .nojekyll and 404.html for SPA routing
-          echo "\nCreating .nojekyll and 404.html..."
+          echo "Creating .nojekyll and 404.html..."
           touch dist/public/.nojekyll
           cp dist/public/index.html dist/public/404.html
           
           # Verify the files were created
-          echo "\nVerifying required files:"
+          echo "Verifying required files in dist/public/:"
+          ls -la dist/public/
+          
+          echo "\nVerifying required files exist:"
           [ -f "dist/public/index.html" ] && echo "✅ index.html exists" || echo "❌ index.html is missing"
           [ -f "dist/public/404.html" ] && echo "✅ 404.html exists" || echo "❌ 404.html is missing"
           [ -f "dist/public/.nojekyll" ] && echo "✅ .nojekyll exists" || echo "❌ .nojekyll is missing"
+          
+          # List all files for debugging
+          echo "\nAll files in dist/public/:"
+          find dist/public -type f | sort
           
           # List all files for debugging
           echo "\nAll files in dist/:"
