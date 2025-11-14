@@ -18,18 +18,13 @@ export default defineConfig(({ mode }) => {
         require("@replit/vite-plugin-dev-banner").default()
       ] : [])
     ],
-    resolve: {
-      alias: {
-        "@": path.resolve("client/src"),
-        "@shared": path.resolve("shared"),
-        "@assets": path.resolve("attached_assets"),
-      },
-    },
-    root: "client",
+    root: "./client",
+    publicDir: "./client/public",
     build: {
-      outDir: "dist/public",
+      outDir: "../dist/public",
       emptyOutDir: true,
       rollupOptions: {
+        input: "./client/index.html",
         output: {
           assetFileNames: (assetInfo) => {
             let extType = assetInfo.name?.split('.').at(1) || '';
@@ -37,9 +32,18 @@ export default defineConfig(({ mode }) => {
               extType = 'img';
             }
             return `assets/${extType}/[name]-[hash][extname]`;
-          }
+          },
+          entryFileNames: 'assets/js/[name]-[hash].js',
+          chunkFileNames: 'assets/js/[name]-[hash].js',
         }
       }
+    },
+    resolve: {
+      alias: [
+        { find: '@', replacement: path.resolve(__dirname, 'client/src') },
+        { find: '@shared', replacement: path.resolve(__dirname, 'shared') },
+        { find: '@assets', replacement: path.resolve(__dirname, 'attached_assets') },
+      ]
     },
     server: {
       fs: {
