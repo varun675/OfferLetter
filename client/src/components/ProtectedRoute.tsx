@@ -3,7 +3,7 @@ import { useAuth } from "@/contexts/auth-context";
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const { isAuthenticated, isLoading } = useAuth();
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
   // If we're still loading, show a loading state
   if (isLoading) {
@@ -18,7 +18,7 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
   if (!isAuthenticated) {
     // Store the current location to redirect back after login
     localStorage.setItem('redirectAfterLogin', location);
-    window.location.href = '/login';
+    setLocation('/login');
     return null;
   }
 
