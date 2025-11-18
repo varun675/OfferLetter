@@ -46,34 +46,14 @@ export default function CompensationTable({
   // Calculate total fixed annual amount (monthly fixed × 12) and round to nearest thousand
   const totalFixedAnnual = roundToNearestThousand(totalFixed * 12);
   
-  // Total CTC should include both fixed CTC and all bonuses (NO rounding on bonuses themselves)
+  // Total CTC = Fixed CTC + All Bonuses, then round the final total
   const totalWithBonuses = totalFixedAnnual + totalBonuses;
-  
-  // Total CTC(RO) should be the highest of entered Annual CTC or calculated total with bonuses
-  const totalCTCRO = annualCTC 
-    ? roundToNearestThousand(parseFloat(annualCTC))
-    : totalWithBonuses;
+  const totalCTCRO = roundToNearestThousand(totalWithBonuses);
   
   // For display purposes, show the total with bonuses if they exist
   const displayTotal = totalBonuses > 0 
     ? totalCTCRO  // Use the calculated total CTC including bonuses
     : totalFixedAnnual;  // Just show fixed components if no bonuses
-
-  // Helper to convert number to Roman numeral
-  const toRomanNumeral = (num: number): string => {
-    const romanNumerals = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
-    return romanNumerals[num] || `(${num})`;
-  };
-
-  // Generate label for total row based on number of bonuses
-  const generateTotalLabel = (): string => {
-    if (activeBonuses.length === 0) return 'Total CTC(I):';
-    const numerals = ['I'];
-    for (let i = 0; i < activeBonuses.length; i++) {
-      numerals.push(toRomanNumeral(i + 2));
-    }
-    return `Total CTC(${numerals.join('+')}):`;
-  };
 
   return (
     <div className="border rounded-lg overflow-hidden bg-card" data-testid={`compensation-table${testIdSuffix}`}>
@@ -95,7 +75,7 @@ export default function CompensationTable({
           <Table style={{ width: '100%' }}>
             <TableHeader>
               <TableRow>
-                <TableHead className="font-bold text-xs sm:text-sm" style={{ width: '29%' }}>(i) Monthly Payments:</TableHead>
+                <TableHead className="font-bold text-xs sm:text-sm" style={{ width: '29%' }}>Monthly Payments:</TableHead>
                 <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '35.5%' }}>Per Month</TableHead>
                 <TableHead className="text-right font-bold text-xs sm:text-sm" style={{ width: '35.5%' }}>Per Annum</TableHead>
               </TableRow>
@@ -132,7 +112,7 @@ export default function CompensationTable({
             </TableRow>
             
             <TableRow className="font-semibold bg-muted/50">
-              <TableCell className="whitespace-nowrap">Total Gross Fixed CTC(I)</TableCell>
+              <TableCell className="whitespace-nowrap">Total Gross Fixed CTC</TableCell>
               <TableCell className="text-right whitespace-nowrap" data-testid="cell-fixed-monthly">
                 {totalFixed > 0 ? roundToNearestThousand(totalFixed).toLocaleString('en-IN') : '—'}
               </TableCell>
@@ -143,7 +123,7 @@ export default function CompensationTable({
             
             {activeBonuses.map((bonus, index) => (
               <TableRow key={index}>
-                <TableCell className="whitespace-nowrap">{bonus.label} ({toRomanNumeral(index + 2)})</TableCell>
+                <TableCell className="whitespace-nowrap">{bonus.label}</TableCell>
                 <TableCell className="text-right"></TableCell>
                 <TableCell className="text-right whitespace-nowrap" data-testid={`cell-bonus-${index}`}>
                   {parseFloat(bonus.amount).toLocaleString('en-IN')}
@@ -153,7 +133,7 @@ export default function CompensationTable({
             
             {totalBonuses > 0 && (
               <TableRow className="font-semibold">
-                <TableCell className="whitespace-nowrap">{generateTotalLabel()}</TableCell>
+                <TableCell className="whitespace-nowrap">Total CTC:</TableCell>
                 <TableCell className="text-right"></TableCell>
                 <TableCell className="text-right whitespace-nowrap" data-testid="cell-ctc-with-bonus">
                   {totalCTCRO.toLocaleString('en-IN')}
@@ -161,13 +141,25 @@ export default function CompensationTable({
               </TableRow>
             )}
             
-            <TableRow className="font-bold bg-primary/20">
-              <TableCell className="whitespace-nowrap">Total CTC(RO):</TableCell>
-              <TableCell className="text-right"></TableCell>
-              <TableCell className="text-right whitespace-nowrap" data-testid="cell-total-ctc">
-                {totalCTCRO > 0 ? totalCTCRO.toLocaleString('en-IN') : '—'}
-              </TableCell>
-            </TableRow>
+            {totalBonuses === 0 && (
+              <TableRow className="font-bold bg-primary/20">
+                <TableCell className="whitespace-nowrap">Total CTC:</TableCell>
+                <TableCell className="text-right"></TableCell>
+                <TableCell className="text-right whitespace-nowrap" data-testid="cell-total-ctc">
+                  {totalCTCRO.toLocaleString('en-IN')}
+                </TableCell>
+              </TableRow>
+            )}
+            
+            {totalBonuses > 0 && (
+              <TableRow className="font-bold bg-primary/20">
+                <TableCell className="whitespace-nowrap">Total CTC (RO):</TableCell>
+                <TableCell className="text-right"></TableCell>
+                <TableCell className="text-right whitespace-nowrap" data-testid="cell-total-ctc">
+                  {totalCTCRO.toLocaleString('en-IN')}
+                </TableCell>
+              </TableRow>
+            )}
           </TableBody>
           </Table>
         </div>
