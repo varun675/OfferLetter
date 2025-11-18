@@ -43,11 +43,13 @@ export default function CompensationTable({
   // Calculate total fixed annual amount (monthly fixed × 12) and round to nearest thousand
   const totalFixedAnnual = roundToNearestThousand(totalFixed * 12);
   
-  // Total CTC(RO) should be the entered Annual CTC if provided
-  // Otherwise, calculate as (fixed annual + annual bonuses) and round to nearest thousand
+  // Total CTC should include both fixed CTC and all bonuses
+  const totalWithBonuses = roundToNearestThousand(totalFixedAnnual + totalBonuses);
+  
+  // Total CTC(RO) should be the highest of entered Annual CTC or calculated total with bonuses
   const totalCTCRO = annualCTC 
     ? roundToNearestThousand(parseFloat(annualCTC))
-    : roundToNearestThousand(totalFixedAnnual + totalBonuses);
+    : totalWithBonuses;
   
   // For display purposes, show the total with bonuses if they exist
   const displayTotal = totalBonuses > 0 
@@ -123,7 +125,7 @@ export default function CompensationTable({
             {bonuses.map((bonus, index) => (
               bonus.label && parseFloat(bonus.amount) > 0 && (
                 <TableRow key={index}>
-                  <TableCell className="whitespace-nowrap">{bonus.label} (Annual)</TableCell>
+                  <TableCell className="whitespace-nowrap">{bonus.label} {index === 0 ? '(II)' : '(Annual)'}</TableCell>
                   <TableCell className="text-right"></TableCell>
                   <TableCell className="text-right whitespace-nowrap" data-testid={`cell-bonus-${index}`}>
                     {roundToNearestThousand(parseFloat(bonus.amount)).toLocaleString('en-IN')}
